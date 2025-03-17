@@ -47,5 +47,4 @@ To run the development server, run `npm run dev`
     -   The server we're going to be using to run the javascript api
 -   TypeScript
 -   [Hono](https://hono.dev/)
-    -   A JavaScript runtime we can use for a
     -   Has a lot of [middleware](https://hono.dev/docs/guides/middleware) built in to ease the development process, such as input validation and authentication
