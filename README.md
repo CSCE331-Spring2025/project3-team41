@@ -46,6 +46,9 @@ To run the development server, first install the dependencies with `npm install`
 -   [NodeJS](https://nodejs.org/en)
     -   The server we're going to be using to run the JavaScript API
 -   TypeScript
+-   [Postgres.js](https://github.com/porsager/postgres)
+    -   Just a simple sql connector that has nice functionality
+    -   If it doesn't meet our needs we should change it out
 -   [Hono](https://hono.dev/)
     -   Has a lot of [middleware](https://hono.dev/docs/guides/middleware) built-in to ease the development process, such as input validation and authentication
     -   General quality of life compared to the older and more lean [Express](https://expressjs.com/)
