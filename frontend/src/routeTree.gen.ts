@@ -11,20 +11,90 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as AboutImport } from './routes/about'
+import { Route as OrderImport } from './routes/order'
+import { Route as KioskImport } from './routes/kiosk'
+import { Route as HistoryImport } from './routes/history'
+import { Route as DisplayImport } from './routes/display'
 import { Route as IndexImport } from './routes/index'
+import { Route as ReportZImport } from './routes/report/z'
+import { Route as ReportXImport } from './routes/report/x'
+import { Route as ReportProfitImport } from './routes/report/profit'
+import { Route as ReportItemsImport } from './routes/report/items'
+import { Route as EditMenuImport } from './routes/edit/menu'
+import { Route as EditInventoryImport } from './routes/edit/inventory'
+import { Route as EditEmployeesImport } from './routes/edit/employees'
 
 // Create/Update Routes
 
-const AboutRoute = AboutImport.update({
-  id: '/about',
-  path: '/about',
+const OrderRoute = OrderImport.update({
+  id: '/order',
+  path: '/order',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const KioskRoute = KioskImport.update({
+  id: '/kiosk',
+  path: '/kiosk',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const HistoryRoute = HistoryImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DisplayRoute = DisplayImport.update({
+  id: '/display',
+  path: '/display',
   getParentRoute: () => rootRoute,
 } as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ReportZRoute = ReportZImport.update({
+  id: '/report/z',
+  path: '/report/z',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ReportXRoute = ReportXImport.update({
+  id: '/report/x',
+  path: '/report/x',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ReportProfitRoute = ReportProfitImport.update({
+  id: '/report/profit',
+  path: '/report/profit',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ReportItemsRoute = ReportItemsImport.update({
+  id: '/report/items',
+  path: '/report/items',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const EditMenuRoute = EditMenuImport.update({
+  id: '/edit/menu',
+  path: '/edit/menu',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const EditInventoryRoute = EditInventoryImport.update({
+  id: '/edit/inventory',
+  path: '/edit/inventory',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const EditEmployeesRoute = EditEmployeesImport.update({
+  id: '/edit/employees',
+  path: '/edit/employees',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -39,11 +109,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
+    '/display': {
+      id: '/display'
+      path: '/display'
+      fullPath: '/display'
+      preLoaderRoute: typeof DisplayImport
+      parentRoute: typeof rootRoute
+    }
+    '/history': {
+      id: '/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof HistoryImport
+      parentRoute: typeof rootRoute
+    }
+    '/kiosk': {
+      id: '/kiosk'
+      path: '/kiosk'
+      fullPath: '/kiosk'
+      preLoaderRoute: typeof KioskImport
+      parentRoute: typeof rootRoute
+    }
+    '/order': {
+      id: '/order'
+      path: '/order'
+      fullPath: '/order'
+      preLoaderRoute: typeof OrderImport
+      parentRoute: typeof rootRoute
+    }
+    '/edit/employees': {
+      id: '/edit/employees'
+      path: '/edit/employees'
+      fullPath: '/edit/employees'
+      preLoaderRoute: typeof EditEmployeesImport
+      parentRoute: typeof rootRoute
+    }
+    '/edit/inventory': {
+      id: '/edit/inventory'
+      path: '/edit/inventory'
+      fullPath: '/edit/inventory'
+      preLoaderRoute: typeof EditInventoryImport
+      parentRoute: typeof rootRoute
+    }
+    '/edit/menu': {
+      id: '/edit/menu'
+      path: '/edit/menu'
+      fullPath: '/edit/menu'
+      preLoaderRoute: typeof EditMenuImport
+      parentRoute: typeof rootRoute
+    }
+    '/report/items': {
+      id: '/report/items'
+      path: '/report/items'
+      fullPath: '/report/items'
+      preLoaderRoute: typeof ReportItemsImport
+      parentRoute: typeof rootRoute
+    }
+    '/report/profit': {
+      id: '/report/profit'
+      path: '/report/profit'
+      fullPath: '/report/profit'
+      preLoaderRoute: typeof ReportProfitImport
+      parentRoute: typeof rootRoute
+    }
+    '/report/x': {
+      id: '/report/x'
+      path: '/report/x'
+      fullPath: '/report/x'
+      preLoaderRoute: typeof ReportXImport
+      parentRoute: typeof rootRoute
+    }
+    '/report/z': {
+      id: '/report/z'
+      path: '/report/z'
+      fullPath: '/report/z'
+      preLoaderRoute: typeof ReportZImport
       parentRoute: typeof rootRoute
     }
   }
@@ -53,37 +193,124 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/display': typeof DisplayRoute
+  '/history': typeof HistoryRoute
+  '/kiosk': typeof KioskRoute
+  '/order': typeof OrderRoute
+  '/edit/employees': typeof EditEmployeesRoute
+  '/edit/inventory': typeof EditInventoryRoute
+  '/edit/menu': typeof EditMenuRoute
+  '/report/items': typeof ReportItemsRoute
+  '/report/profit': typeof ReportProfitRoute
+  '/report/x': typeof ReportXRoute
+  '/report/z': typeof ReportZRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/display': typeof DisplayRoute
+  '/history': typeof HistoryRoute
+  '/kiosk': typeof KioskRoute
+  '/order': typeof OrderRoute
+  '/edit/employees': typeof EditEmployeesRoute
+  '/edit/inventory': typeof EditInventoryRoute
+  '/edit/menu': typeof EditMenuRoute
+  '/report/items': typeof ReportItemsRoute
+  '/report/profit': typeof ReportProfitRoute
+  '/report/x': typeof ReportXRoute
+  '/report/z': typeof ReportZRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/display': typeof DisplayRoute
+  '/history': typeof HistoryRoute
+  '/kiosk': typeof KioskRoute
+  '/order': typeof OrderRoute
+  '/edit/employees': typeof EditEmployeesRoute
+  '/edit/inventory': typeof EditInventoryRoute
+  '/edit/menu': typeof EditMenuRoute
+  '/report/items': typeof ReportItemsRoute
+  '/report/profit': typeof ReportProfitRoute
+  '/report/x': typeof ReportXRoute
+  '/report/z': typeof ReportZRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths:
+    | '/'
+    | '/display'
+    | '/history'
+    | '/kiosk'
+    | '/order'
+    | '/edit/employees'
+    | '/edit/inventory'
+    | '/edit/menu'
+    | '/report/items'
+    | '/report/profit'
+    | '/report/x'
+    | '/report/z'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to:
+    | '/'
+    | '/display'
+    | '/history'
+    | '/kiosk'
+    | '/order'
+    | '/edit/employees'
+    | '/edit/inventory'
+    | '/edit/menu'
+    | '/report/items'
+    | '/report/profit'
+    | '/report/x'
+    | '/report/z'
+  id:
+    | '__root__'
+    | '/'
+    | '/display'
+    | '/history'
+    | '/kiosk'
+    | '/order'
+    | '/edit/employees'
+    | '/edit/inventory'
+    | '/edit/menu'
+    | '/report/items'
+    | '/report/profit'
+    | '/report/x'
+    | '/report/z'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
+  DisplayRoute: typeof DisplayRoute
+  HistoryRoute: typeof HistoryRoute
+  KioskRoute: typeof KioskRoute
+  OrderRoute: typeof OrderRoute
+  EditEmployeesRoute: typeof EditEmployeesRoute
+  EditInventoryRoute: typeof EditInventoryRoute
+  EditMenuRoute: typeof EditMenuRoute
+  ReportItemsRoute: typeof ReportItemsRoute
+  ReportProfitRoute: typeof ReportProfitRoute
+  ReportXRoute: typeof ReportXRoute
+  ReportZRoute: typeof ReportZRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
+  DisplayRoute: DisplayRoute,
+  HistoryRoute: HistoryRoute,
+  KioskRoute: KioskRoute,
+  OrderRoute: OrderRoute,
+  EditEmployeesRoute: EditEmployeesRoute,
+  EditInventoryRoute: EditInventoryRoute,
+  EditMenuRoute: EditMenuRoute,
+  ReportItemsRoute: ReportItemsRoute,
+  ReportProfitRoute: ReportProfitRoute,
+  ReportXRoute: ReportXRoute,
+  ReportZRoute: ReportZRoute,
 }
 
 export const routeTree = rootRoute
@@ -97,14 +324,54 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about"
+        "/display",
+        "/history",
+        "/kiosk",
+        "/order",
+        "/edit/employees",
+        "/edit/inventory",
+        "/edit/menu",
+        "/report/items",
+        "/report/profit",
+        "/report/x",
+        "/report/z"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/about": {
-      "filePath": "about.tsx"
+    "/display": {
+      "filePath": "display.tsx"
+    },
+    "/history": {
+      "filePath": "history.tsx"
+    },
+    "/kiosk": {
+      "filePath": "kiosk.tsx"
+    },
+    "/order": {
+      "filePath": "order.tsx"
+    },
+    "/edit/employees": {
+      "filePath": "edit/employees.tsx"
+    },
+    "/edit/inventory": {
+      "filePath": "edit/inventory.tsx"
+    },
+    "/edit/menu": {
+      "filePath": "edit/menu.tsx"
+    },
+    "/report/items": {
+      "filePath": "report/items.tsx"
+    },
+    "/report/profit": {
+      "filePath": "report/profit.tsx"
+    },
+    "/report/x": {
+      "filePath": "report/x.tsx"
+    },
+    "/report/z": {
+      "filePath": "report/z.tsx"
     }
   }
 }
