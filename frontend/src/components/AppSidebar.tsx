@@ -1,7 +1,6 @@
 import {
 	Sidebar,
 	SidebarContent,
-	SidebarFooter,
 	SidebarGroup,
 	SidebarGroupLabel,
 	SidebarHeader,
@@ -30,14 +29,13 @@ import {
 	Pencil,
 	Store,
 } from "lucide-react";
-import { Link, useRouter, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { ValidateLinkOptions } from "@tanstack/react-router";
 import { Fragment, ReactElement } from "react";
 import UnicornLogo from "@/assets/PFU.jpg";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
-	BreadcrumbLink,
 	BreadcrumbList,
 	BreadcrumbPage,
 	BreadcrumbSeparator,
@@ -144,29 +142,6 @@ const groups: Group[] = [
 	},
 ];
 
-function getBreadcrumbs(currentPath: string): string[] {
-	for (const group of groups) {
-		if (group.buttons) {
-			for (const button of group.buttons) {
-				if (button.link.to == currentPath) {
-					return [group.group, button.button];
-				}
-			}
-		}
-		if (group.collapsible) {
-			for (const collapse of group.collapsible) {
-				for (const page of collapse.pages) {
-					if (page.link.to == currentPath) {
-						return [group.group, collapse.collapse, page.page];
-					}
-				}
-			}
-		}
-	}
-
-	return [];
-}
-
 interface Props {
 	children: ReactElement;
 }
@@ -174,45 +149,6 @@ interface Props {
 function AppSidebar({ children }: Props) {
 	const router = useRouterState();
 	const currentPath = router.location.pathname;
-
-	function Header() {
-		return (
-			<div className="flex gap-4 items-center">
-				<img
-					src={UnicornLogo}
-					className="rounded"
-					height={36}
-					width={36}
-				/>
-				<h1>Pink Fluffy Unicorns</h1>
-			</div>
-		);
-	}
-
-	function Breadcrumbs() {
-		const breadcrumbs = getBreadcrumbs(currentPath);
-
-		return (
-			<Breadcrumb>
-				<BreadcrumbList>
-					{breadcrumbs.map((str, index) => (
-						<Fragment key={`${str}-${index}`}>
-							{index !== 0 && (
-								<BreadcrumbSeparator className="hidden md:block" />
-							)}
-							<BreadcrumbItem className="hidden md:block">
-								{index === breadcrumbs.length - 1 ? (
-									<BreadcrumbPage>{str}</BreadcrumbPage>
-								) : (
-									str
-								)}
-							</BreadcrumbItem>
-						</Fragment>
-					))}
-				</BreadcrumbList>
-			</Breadcrumb>
-		);
-	}
 
 	if (currentPath == "/") {
 		return children;
@@ -234,13 +170,75 @@ function AppSidebar({ children }: Props) {
 							orientation="vertical"
 							className="mr-2 h-4"
 						/>
-						{Breadcrumbs()}
+						{Breadcrumbs(currentPath)}
 					</div>
 				</header>
 				{children}
 			</SidebarInset>
 		</SidebarProvider>
 	);
+}
+
+function Header() {
+	return (
+		<div className="flex gap-4 items-center">
+			<img
+				src={UnicornLogo}
+				className="rounded"
+				height={36}
+				width={36}
+			/>
+			<h1>Pink Fluffy Unicorns</h1>
+		</div>
+	);
+}
+
+function Breadcrumbs(currentPath: string) {
+	const breadcrumbs = getBreadcrumbs(currentPath);
+
+	return (
+		<Breadcrumb>
+			<BreadcrumbList>
+				{breadcrumbs.map((str, index) => (
+					<Fragment key={`${str}-${index}`}>
+						{index !== 0 && (
+							<BreadcrumbSeparator className="hidden md:block" />
+						)}
+						<BreadcrumbItem className="hidden md:block">
+							{index === breadcrumbs.length - 1 ? (
+								<BreadcrumbPage>{str}</BreadcrumbPage>
+							) : (
+								str
+							)}
+						</BreadcrumbItem>
+					</Fragment>
+				))}
+			</BreadcrumbList>
+		</Breadcrumb>
+	);
+}
+
+function getBreadcrumbs(currentPath: string): string[] {
+	for (const group of groups) {
+		if (group.buttons) {
+			for (const button of group.buttons) {
+				if (button.link.to == currentPath) {
+					return [group.group, button.button];
+				}
+			}
+		}
+		if (group.collapsible) {
+			for (const collapse of group.collapsible) {
+				for (const page of collapse.pages) {
+					if (page.link.to == currentPath) {
+						return [group.group, collapse.collapse, page.page];
+					}
+				}
+			}
+		}
+	}
+
+	return [];
 }
 
 function AppSidebarGroup(
