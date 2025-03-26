@@ -3,13 +3,14 @@ import { JSX } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z, ZodTypeAny } from "zod";
 
-export interface Definition<T> {
+export interface Definition<T, K = unknown> {
 	primaryKey?: boolean;
 	accessorKey: keyof T;
 	header: string;
 	sortable?: boolean;
 	cell?: (row: Row<T>) => JSX.Element;
 	type: ZodTypeAny;
+	preprocess?: (obj: unknown) => K;
 }
 
 export type CreateEntry<T> = (entry: T) => void;

@@ -21,8 +21,8 @@ import {
 	CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import {
+	BookOpenText,
 	BookText,
-	ChefHat,
 	ChevronRight,
 	Clock,
 	CupSoda,
@@ -85,7 +85,7 @@ const groups: Group[] = [
 			},
 			{
 				button: "Display Menu",
-				icon: <ChefHat />,
+				icon: <BookOpenText />,
 				link: { to: "/display" },
 			},
 			{

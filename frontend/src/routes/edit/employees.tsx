@@ -72,51 +72,6 @@ const definition: Definition<Employee>[] = [
 	},
 ];
 
-const prefetched = {
-	employees: [
-		{
-			employee_id: 0,
-			name: "May",
-			hours_worked: 100,
-			wage: 12,
-			manager_id: 0,
-			password: "password",
-		},
-		{
-			employee_id: 1,
-			name: "Lilly",
-			hours_worked: 10,
-			wage: 9,
-			manager_id: 0,
-			password: "password",
-		},
-		{
-			employee_id: 2,
-			name: "Shri",
-			hours_worked: 0,
-			wage: 11.25,
-			manager_id: 0,
-			password: "password",
-		},
-		{
-			employee_id: 3,
-			name: "Evan",
-			hours_worked: 1000,
-			wage: 10,
-			manager_id: 1,
-			password: "password",
-		},
-		{
-			employee_id: 4,
-			name: "Owen",
-			hours_worked: 20,
-			wage: 9.01,
-			manager_id: 1,
-			password: "password",
-		},
-	],
-};
-
 function RouteComponent() {
 	const { status, data, error } = useQuery({
 		queryKey: ["employees"],
@@ -144,7 +99,7 @@ function RouteComponent() {
 			<h1 className="text-2xl font-bold">Edit Employees</h1>
 			<DataTable<Employee>
 				definition={definition}
-				data={prefetched["employees"]}
+				data={data}
 				defaultValues={{
 					employee_id: 0,
 					hours_worked: 0,

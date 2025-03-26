@@ -1,15 +1,20 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 import postgres from "postgres";
+import "dotenv/config"
 
+console.log(process.env.user);
 const sql = postgres({
-	user: "team_41",
-	host: "csce-315-db.engr.tamu.edu",
-	database: "team_41_db",
-	password: "pink_and_fluffy",
-}); // will use psql environment variables
+	user: process.env.user,
+	host: process.env.host,
+	database: process.env.database,
+	password: process.env.password,
+});
+
 
 const app = new Hono();
+app.use("/*", cors());
 
 app.get("/", (c) => {
 	return c.json({ status: "operational" });
@@ -17,17 +22,28 @@ app.get("/", (c) => {
 
 app.get("/menu", async (c) => {
 	const menu = await sql`SELECT * FROM menu`;
-	return c.json({ menu });
+	return c.json(menu);
+});
+
+app.put("/menu", async (c) => {
+	const body = await c.req.json();
+	console.log(body);
+	return c.body("Completed Operation", 200);
+});
+
+app.delete("/menu", async (c) => {
+	// const
+	return c.body("Completed Operation", 200);
 });
 
 app.get("/inventory", async (c) => {
-	const inventory = await sql`SELECT * from inventory`;
+	const inventory = await sql`SELECT * from ingredients`;
 	return c.json(inventory);
 });
 
 app.get("/employees", async (c) => {
 	const employees = await sql`SELECT * FROM employees`;
-	return c.json({ employees });
+	return c.json(employees);
 });
 
 app.get("/items/:item", async (c) => {
@@ -84,3 +100,5 @@ serve(
 		console.log(`Server is running on http://localhost:${info.port}`);
 	}
 );
+
+export default app;
