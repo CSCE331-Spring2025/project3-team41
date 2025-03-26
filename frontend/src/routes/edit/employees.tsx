@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import DataTable from "@/components/DataTable/DataTable";
 import { Definition } from "@/components/DataTable/DataTableTypes";
 import { z } from "zod";
@@ -72,66 +72,79 @@ const definition: Definition<Employee>[] = [
 	},
 ];
 
-const data: Employee[] = [
-	{
-		employee_id: 0,
-		name: "May",
-		hours_worked: 100,
-		wage: 12,
-		manager_id: 0,
-		password: "password",
-	},
-	{
-		employee_id: 1,
-		name: "Lilly",
-		hours_worked: 10,
-		wage: 9,
-		manager_id: 0,
-		password: "password",
-	},
-	{
-		employee_id: 2,
-		name: "Shri",
-		hours_worked: 0,
-		wage: 11.25,
-		manager_id: 0,
-		password: "password",
-	},
-	{
-		employee_id: 3,
-		name: "Evan",
-		hours_worked: 1000,
-		wage: 10,
-		manager_id: 1,
-		password: "password",
-	},
-	{
-		employee_id: 4,
-		name: "Owen",
-		hours_worked: 20,
-		wage: 9.01,
-		manager_id: 1,
-		password: "password",
-	},
-];
+const prefetched = {
+	employees: [
+		{
+			employee_id: 0,
+			name: "May",
+			hours_worked: 100,
+			wage: 12,
+			manager_id: 0,
+			password: "password",
+		},
+		{
+			employee_id: 1,
+			name: "Lilly",
+			hours_worked: 10,
+			wage: 9,
+			manager_id: 0,
+			password: "password",
+		},
+		{
+			employee_id: 2,
+			name: "Shri",
+			hours_worked: 0,
+			wage: 11.25,
+			manager_id: 0,
+			password: "password",
+		},
+		{
+			employee_id: 3,
+			name: "Evan",
+			hours_worked: 1000,
+			wage: 10,
+			manager_id: 1,
+			password: "password",
+		},
+		{
+			employee_id: 4,
+			name: "Owen",
+			hours_worked: 20,
+			wage: 9.01,
+			manager_id: 1,
+			password: "password",
+		},
+	],
+};
 
 function RouteComponent() {
-	useEffect(() => {
-		async function get() {
-			const res = await fetch("http://localhost:3000/employees");
-			const json = await res.json();
-			console.log(JSON.stringify(json));
-		}
+	const { status, data, error } = useQuery({
+		queryKey: ["employees"],
+		queryFn: get,
+	});
 
-		// get();
-	}, []);
+	async function get() {
+		const res = await fetch("http://localhost:3000/employees");
+		if (!res.ok) {
+			throw new Error("Network response was not ok");
+		}
+		return res.json();
+	}
+
+	if (status === "pending") {
+		return <h1>Loading...</h1>;
+	}
+
+	if (status === "error") {
+		return <h1>There was an error when loading the data.</h1>;
+	}
 
 	return (
 		<div className="px-4 flex flex-col gap-4">
 			<h1 className="text-2xl font-bold">Edit Employees</h1>
 			<DataTable<Employee>
 				definition={definition}
-				data={data}
+				data={prefetched["employees"]}
 				defaultValues={{
 					employee_id: 0,
 					hours_worked: 0,

@@ -16,7 +16,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { DataTableViewOptions } from "./DataTableView";
 import { DataTablePagination } from "./DataTablePagination";
 
