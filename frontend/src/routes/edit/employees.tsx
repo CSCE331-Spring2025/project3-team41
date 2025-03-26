@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { ColumnDef } from "@tanstack/react-table";
-import { DataTable } from "@/components/EditTable";
-import { DataTableColumnHeader } from "@/components/DataTableColumnHeader";
+import DataTable from "@/components/DataTable/DataTable";
+import { Definition } from "@/components/DataTable/DataTableTypes";
+import { z } from "zod";
 
 export const Route = createFileRoute("/edit/employees")({
 	component: RouteComponent,
@@ -17,65 +17,47 @@ interface Employee {
 	wage: number;
 }
 
-const columns: ColumnDef<Employee>[] = [
+const definition: Definition<Employee>[] = [
 	{
+		primaryKey: true,
 		accessorKey: "employee_id",
-		header: ({ column }) => (
-			<DataTableColumnHeader
-				column={column}
-				title="Employee ID"
-			/>
-		),
+		header: "Employee ID",
+		sortable: true,
+		type: z.coerce.number().min(0),
 	},
 	{
 		accessorKey: "manager_id",
-		header: ({ column }) => (
-			<DataTableColumnHeader
-				column={column}
-				title="Manager ID"
-			/>
-		),
+		header: "Manager ID",
+		sortable: true,
+		type: z.coerce.number().min(0),
 	},
 	{
 		accessorKey: "name",
-		header: ({ column }) => (
-			<DataTableColumnHeader
-				column={column}
-				title="Name"
-			/>
-		),
+		header: "Name",
+		sortable: true,
+		type: z.string().nonempty(),
 	},
 	{
 		accessorKey: "password",
-		header: ({ column }) => (
-			<DataTableColumnHeader
-				column={column}
-				title="Password"
-			/>
-		),
+		header: "Password",
+		sortable: true,
+		type: z.string().nonempty(),
 	},
 	{
 		accessorKey: "hours_worked",
-		header: ({ column }) => (
-			<DataTableColumnHeader
-				column={column}
-				title="Hours Worked"
-			/>
-		),
-		cell: ({ row }) => {
+		header: "Hours Worked",
+		sortable: true,
+		cell: (row) => {
 			const amount = parseInt(row.getValue("hours_worked"));
 			return <div>{amount.toLocaleString()}</div>;
 		},
+		type: z.coerce.number().min(0),
 	},
 	{
 		accessorKey: "wage",
-		header: ({ column }) => (
-			<DataTableColumnHeader
-				column={column}
-				title="Wage"
-			/>
-		),
-		cell: ({ row }) => {
+		header: "Wage",
+		sortable: true,
+		cell: (row) => {
 			const amount = parseFloat(row.getValue("wage"));
 			const formatted = new Intl.NumberFormat("en-US", {
 				style: "currency",
@@ -84,10 +66,13 @@ const columns: ColumnDef<Employee>[] = [
 
 			return <div>{formatted}</div>;
 		},
+		type: z.coerce
+			.number()
+			.min(7.25, "You cannot pay your employee below minimum wage."),
 	},
 ];
 
-let data: Employee[] = [
+const data: Employee[] = [
 	{
 		employee_id: 0,
 		name: "May",
@@ -144,11 +129,10 @@ function RouteComponent() {
 	return (
 		<div className="px-4 flex flex-col gap-4">
 			<h1 className="text-2xl font-bold">Edit Employees</h1>
-			<DataTable
-				columns={columns}
+			<DataTable<Employee>
+				definition={definition}
 				data={data}
-				primaryKey={"employee_id"}
-				defaultConstructed={{
+				defaultValues={{
 					employee_id: 0,
 					hours_worked: 0,
 					manager_id: 0,
