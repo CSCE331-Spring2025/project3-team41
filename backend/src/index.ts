@@ -1,6 +1,7 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import postgres from 'postgres'
+import postgres from 'postgres';
+import { cors } from 'hono/cors';
 
 const sql = postgres({
 	user: "team_41",
@@ -11,6 +12,7 @@ const sql = postgres({
 
 
 const app = new Hono();
+app.use('/*', cors());
 
 app.get("/", (c) => {
 	return c.json({ status: "operational" });
@@ -71,10 +73,11 @@ app.get("/report/TopItems", async (c) => {
 app.get("/logins/:username/:password", async (c) => {
 	const username = c.req.param("username");
 	const password = c.req.param("password");
-	const items = await sql`SELECT * FROM logins WHERE username = '${username}' AND password = '${password}'`;
-	const data = c.json({items});
-	const price = JSON.stringify(data);
-	return data;
+	const items = await sql`SELECT * FROM logins WHERE username = ${username} AND password = ${password}`;
+	if(items.length === 0){
+		return c.json({perm: -1});
+	}
+	return c.json({perm: items[0].perm});
 });
 
 serve(
