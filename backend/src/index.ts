@@ -29,6 +29,43 @@ app.get("/items/:item", async (c) => {
 	return data;
 });
 
+// Get profit over time
+app.get("/report/SalesOverTime", async (c) => {
+	const profitOverTime = await sql`
+		SELECT 
+			date,
+			SUM(price) - (
+		  		SELECT coalesce(SUM(i.cost), 0)
+		  		FROM unnest(o.drinks) as drink
+		  		JOIN menu m ON m.item = drink
+		  		JOIN unnest(m.ingredients) as ing ON TRUE
+		  		JOIN ingredients i ON i.ingredient = ing
+			) as profit
+	  	FROM 
+			orders o
+	  	GROUP BY 
+			date
+	  	ORDER BY 
+			date ASC`;
+	return c.json(profitOverTime);
+});
+
+// Get top 10 selling items
+app.get("/report/TopItems", async (c) => {
+	const topItems = await sql`
+		SELECT
+            unnest(drinks) AS item,
+            COUNT(*) AS times_ordered
+    	FROM
+            orders
+        GROUP BY
+            item
+        ORDER BY
+            times_ordered DESC
+        LIMIT 10`;
+	return c.json(topItems);
+});
+
 serve(
 	{
 		fetch: app.fetch,
