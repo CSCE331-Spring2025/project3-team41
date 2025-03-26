@@ -66,6 +66,17 @@ app.get("/report/TopItems", async (c) => {
 	return c.json(topItems);
 });
 
+
+//Verify if username and password work
+app.get("/logins/:username/:password", async (c) => {
+	const username = c.req.param("username");
+	const password = c.req.param("password");
+	const items = await sql`SELECT * FROM logins WHERE username = '${username}' AND password = '${password}'`;
+	const data = c.json({items});
+	const price = JSON.stringify(data);
+	return data;
+});
+
 serve(
 	{
 		fetch: app.fetch,
