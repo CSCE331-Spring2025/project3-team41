@@ -16,23 +16,42 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { DataTableViewOptions } from "./DataTableView";
 import { DataTablePagination } from "./DataTablePagination";
+import { useQuery } from "@tanstack/react-query";
+import { GetEntries } from "./DataTableTypes";
+import { DataTableContext } from "./DataTableContext";
 
 interface Props<T, V> {
-	data: T[];
+	queryKey: any[];
 	columns: ColumnDef<T, V>[];
+	onGet: GetEntries<T>;
 }
 
-function DataTableRender<T, V>({ data, columns }: Props<T, V>) {
+function DataTableRender<T, V>({ queryKey, columns, onGet }: Props<T, V>) {
+	const { status, data, error } = useQuery({
+		queryKey,
+		queryFn: onGet,
+	});
+
+	function emptyDisplay() {
+		if (status === "pending") {
+			return "Fetching data...";
+		} else if (status === "error") {
+			return "There was an error when loading the data.";
+		} else {
+			return "No results.";
+		}
+	}
+
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
 		{}
 	);
 
 	const table = useReactTable({
-		data,
+		data: data ?? [],
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
@@ -43,6 +62,7 @@ function DataTableRender<T, V>({ data, columns }: Props<T, V>) {
 			sorting,
 			columnVisibility,
 		},
+		autoResetPageIndex: false,
 	});
 
 	function TableContent() {
@@ -90,7 +110,7 @@ function DataTableRender<T, V>({ data, columns }: Props<T, V>) {
 								colSpan={columns.length}
 								className="h-24 text-center"
 							>
-								No results.
+								{emptyDisplay()}
 							</TableCell>
 						</TableRow>
 					)}
@@ -99,14 +119,17 @@ function DataTableRender<T, V>({ data, columns }: Props<T, V>) {
 		);
 	}
 
+	// TODO - filtering by columns (automatically resets page index)
 	return (
-		<div className="flex flex-col gap-4">
-			<div className="flex items-center">
-				<DataTableViewOptions table={table} />
+		<DataTableContext.Provider value={{ table }}>
+			<div className="flex flex-col gap-4">
+				<div className="flex items-center">
+					<DataTableViewOptions table={table} />
+				</div>
+				<div className="rounded-md border">{TableContent()}</div>
+				<DataTablePagination table={table} />
 			</div>
-			<div className="rounded-md border">{TableContent()}</div>
-			<DataTablePagination table={table} />
-		</div>
+		</DataTableContext.Provider>
 	);
 }
 

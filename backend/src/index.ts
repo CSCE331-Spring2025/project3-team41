@@ -1,49 +1,15 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import postgres from "postgres";
-import "dotenv/config"
-
-console.log(process.env.user);
-const sql = postgres({
-	user: process.env.user,
-	host: process.env.host,
-	database: process.env.database,
-	password: process.env.password,
-});
-
+import sql from "./sql.js";
+import edit from "./edit.js";
 
 const app = new Hono();
 app.use("/*", cors());
+app.route("/edit", edit);
 
 app.get("/", (c) => {
 	return c.json({ status: "operational" });
-});
-
-app.get("/menu", async (c) => {
-	const menu = await sql`SELECT * FROM menu`;
-	return c.json(menu);
-});
-
-app.put("/menu", async (c) => {
-	const body = await c.req.json();
-	console.log(body);
-	return c.body("Completed Operation", 200);
-});
-
-app.delete("/menu", async (c) => {
-	// const
-	return c.body("Completed Operation", 200);
-});
-
-app.get("/inventory", async (c) => {
-	const inventory = await sql`SELECT * from ingredients`;
-	return c.json(inventory);
-});
-
-app.get("/employees", async (c) => {
-	const employees = await sql`SELECT * FROM employees`;
-	return c.json(employees);
 });
 
 app.get("/items/:item", async (c) => {
@@ -91,16 +57,16 @@ app.get("/report/TopItems", async (c) => {
 	return c.json(topItems);
 });
 
-
 //Verify if username and password work
 app.get("/logins/:username/:password", async (c) => {
 	const username = c.req.param("username");
 	const password = c.req.param("password");
-	const items = await sql`SELECT * FROM logins WHERE username = ${username} AND password = ${password}`;
-	if(items.length === 0){
-		return c.json({perm: -1});
+	const items =
+		await sql`SELECT * FROM logins WHERE username = ${username} AND password = ${password}`;
+	if (items.length === 0) {
+		return c.json({ perm: -1 });
 	}
-	return c.json({perm: items[0].perm});
+	return c.json({ perm: items[0].perm });
 });
 
 serve(
@@ -113,4 +79,4 @@ serve(
 	}
 );
 
-export default app;
+export { app, sql };
