@@ -45,14 +45,12 @@ app.get("/inventory", async (c) => {
 
 app.post("/inventory", async (c) => {
 	const obj = await c.req.json();
-    console.log(obj);
 	await sql`INSERT INTO ingredients ${sql(obj, Ingredient)}`;
 	return c.body("Operation Completed.", 200);
 });
 
 app.put("/inventory", async (c) => {
 	const { from, to } = await c.req.json();
-    console.log(from, to);
 	await sql`DELETE FROM ingredients WHERE ingredient = ${from.ingredient}`;
 	await sql`INSERT INTO ingredients ${sql(to, Ingredient)}`;
 	return c.body("Operation Completed.", 200);
@@ -60,7 +58,6 @@ app.put("/inventory", async (c) => {
 
 app.delete("/inventory", async (c) => {
 	const obj = await c.req.json();
-    console.log(obj);
 	await sql`DELETE FROM ingredients WHERE ingredient = ${obj.ingredient}`;
 	return c.body("Operation Completed.", 200);
 });

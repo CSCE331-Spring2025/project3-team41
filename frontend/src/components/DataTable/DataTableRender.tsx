@@ -1,5 +1,7 @@
 import {
+	Column,
 	ColumnDef,
+	ColumnPinningState,
 	SortingState,
 	VisibilityState,
 	flexRender,
@@ -16,7 +18,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
+import { CSSProperties, useState } from "react";
 import { DataTableViewOptions } from "./DataTableView";
 import { DataTablePagination } from "./DataTablePagination";
 import { useQuery } from "@tanstack/react-query";
@@ -46,6 +48,10 @@ function DataTableRender<T, V>({ queryKey, columns, onGet }: Props<T, V>) {
 	}
 
 	const [sorting, setSorting] = useState<SortingState>([]);
+	const [columnPinning, setColumnPinning] = useState<ColumnPinningState>({
+		left: [],
+		right: ["actions"],
+	});
 	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
 		{}
 	);
@@ -54,16 +60,40 @@ function DataTableRender<T, V>({ queryKey, columns, onGet }: Props<T, V>) {
 		data: data ?? [],
 		columns,
 		getCoreRowModel: getCoreRowModel(),
+		autoResetPageIndex: false,
 		getPaginationRowModel: getPaginationRowModel(),
 		onSortingChange: setSorting,
 		getSortedRowModel: getSortedRowModel(),
+		onColumnPinningChange: setColumnPinning,
 		onColumnVisibilityChange: setColumnVisibility,
 		state: {
 			sorting,
+			columnPinning,
 			columnVisibility,
 		},
-		autoResetPageIndex: false,
 	});
+
+	const pinStyle = (column: Column<T>): CSSProperties => {
+		const isPinned = column.getIsPinned();
+
+		if (isPinned) {
+			return {
+				left:
+					isPinned === "left"
+						? `${column.getStart("left")}px`
+						: undefined,
+				right:
+					isPinned === "right"
+						? `${column.getAfter("right")}px`
+						: undefined,
+				position: "sticky",
+				backgroundColor: "var(--background)",
+				zIndex: 1,
+			};
+		} else {
+			return {};
+		}
+	};
 
 	function TableContent() {
 		return (
@@ -73,7 +103,10 @@ function DataTableRender<T, V>({ queryKey, columns, onGet }: Props<T, V>) {
 						<TableRow key={headerGroup.id}>
 							{headerGroup.headers.map((header) => {
 								return (
-									<TableHead key={header.id}>
+									<TableHead
+										key={header.id}
+										style={pinStyle(header.column)}
+									>
 										{header.isPlaceholder
 											? null
 											: flexRender(
@@ -95,7 +128,10 @@ function DataTableRender<T, V>({ queryKey, columns, onGet }: Props<T, V>) {
 								data-state={row.getIsSelected() && "selected"}
 							>
 								{row.getVisibleCells().map((cell) => (
-									<TableCell key={cell.id}>
+									<TableCell
+										key={cell.id}
+										style={pinStyle(cell.column)}
+									>
 										{flexRender(
 											cell.column.columnDef.cell,
 											cell.getContext()

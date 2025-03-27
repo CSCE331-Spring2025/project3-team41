@@ -154,7 +154,7 @@ export function DataTableUpdateDelete<T extends object>(
 	});
 
 	useEffect(() => {
-		form.reset();
+		form.reset(defaultValuesRow);
 	}, [open]);
 
 	function defaultValuesFromRow(): T {
