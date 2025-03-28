@@ -24,11 +24,11 @@ function Index() {
     <div>
       <h1>Welcome</h1>
       <br />
-      <Link to="/kiosk">
-      <Button>
+      <Button onClick = { () => {
+        window.location.href = "http://localhost:3000/google";
+      }}>
         Login with Google
       </Button>
-      </Link>
 
     <Link to="/kiosk">
 	  <Button>
