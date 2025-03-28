@@ -3,10 +3,10 @@ import { Hono } from "hono";
 import postgres from 'postgres'
 
 const sql = postgres({
-	user: "team_41",
-	host: "csce-315-db.engr.tamu.edu", 
-	database: "team_41_db", 
-	password: "pink_and_fluffy",
+	user: process.env.PSQL_USER,
+	host: process.env.PSQL_HOST, 
+	database: process.env.PSQL_DATABASE, 
+	password: process.env.PSQL_PASSWORD,
 }) // will use psql environment variables
 
 
@@ -27,6 +27,11 @@ app.get("/items/:item", async (c) => {
 	const data = c.json({items});
 	const price = JSON.stringify(data);
 	return data;
+});
+
+app.get("/get_menu", async (c) => {
+	const full_menu = await sql`SELECT * FROM menu`;
+	return c.json(full_menu);
 });
 
 // Get profit over time
