@@ -4,18 +4,14 @@ import postgres from "postgres";
 import { cors } from "hono/cors";
 import dotenv from "dotenv";
 import { googleAuth } from "@hono/oauth-providers/google";
-
-dotenv.config();
-
-const sql = postgres({
-  user: "team_41",
-  host: "csce-315-db.engr.tamu.edu",
-  database: "team_41_db",
-  password: "fluffy_and_pink",
-}); // will use psql environment variables
+import sql from "./sql.js";
+import edit from "./edit.js";
 
 const app = new Hono();
 app.use("/*", cors());
+app.route("/edit", edit);
+
+dotenv.config();
 
 //************************************************************************** BEGINNING OF GOOGLE API ********************************************* */
 
@@ -116,3 +112,5 @@ serve(
     console.log(`Server is running on http://localhost:${info.port}`);
   }
 );
+
+export { app, sql };
