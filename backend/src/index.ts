@@ -7,6 +7,7 @@ import { googleAuth } from "@hono/oauth-providers/google";
 import sql from "./sql.js";
 import edit from "./edit.js";
 
+
 const app = new Hono();
 app.use("/*", cors());
 app.route("/edit", edit);
@@ -52,6 +53,11 @@ app.get("/items/:item", async (c) => {
   const data = c.json({ items });
   const price = JSON.stringify(data);
   return data;
+});
+
+app.get("/get_menu", async (c) => {
+	const full_menu = await sql`SELECT * FROM menu`;
+	return c.json(full_menu);
 });
 
 // Get profit over time
