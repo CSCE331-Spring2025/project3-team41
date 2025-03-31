@@ -6,11 +6,14 @@ import dotenv from "dotenv";
 import { googleAuth } from "@hono/oauth-providers/google";
 import sql from "./sql.js";
 import edit from "./edit.js";
+import order from "./order.js";
+
 
 
 const app = new Hono();
 app.use("/*", cors());
 app.route("/edit", edit);
+app.route("/order", order);
 
 dotenv.config();
 

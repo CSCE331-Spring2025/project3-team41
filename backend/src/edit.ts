@@ -3,7 +3,7 @@ import sql from "./sql.js";
 
 const app = new Hono();
 
-const MenuItem = ["item", "price", "description", "ingredients"];
+const MenuItem = ["item", "price", "description", "ingredients", "image_url"];
 const Ingredient = ["ingredient", "cost", "quantity"];
 const Employee = [
 	"employee_id",
