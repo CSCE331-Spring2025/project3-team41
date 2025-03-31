@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { API_URL } from "@/lib/constants";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ok } from "@/lib/fetchUtils";
 
 interface MenuItem {
@@ -10,6 +11,7 @@ interface MenuItem {
 	description: string;
 	ingredients: string[];
 }
+const items: MenuItem[] = [];
 
 
 export const Route = createFileRoute("/kiosk")({
@@ -17,7 +19,7 @@ export const Route = createFileRoute("/kiosk")({
 });
 
 function RouteComponent() {
-	async function getMenu() {
+	async function getMenu() : Promise<MenuItem[]> {
 		const res = await ok(
 			fetch(`${API_URL}/edit/menu`, {
 				method: "GET",
@@ -25,9 +27,16 @@ function RouteComponent() {
 		);
 		return res.json();
 	}
-	console.log("Fetching menu...");
-	getMenu().then(menu => console.log("Menu fetched: ", menu));
-	const buttons = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9"];
+	// console.log("Fetching menu...");
+	const [buttons, setButtons] = useState<string[]>([]);
+
+	useEffect(() => {
+		async function fetchMenu() {
+			const full_menu = await getMenu();
+			setButtons(full_menu.map((item: MenuItem) => item.item));
+		}
+		fetchMenu();
+	}, []);
 
 	return (
 		// <Button style={{width : "10px", height : "10px"}}>
@@ -36,16 +45,53 @@ function RouteComponent() {
 		//create a grid of buttons that is similar to a kiosk
 		// with a button for each item in the menu
 		
-		<div className="grid grid-cols-4 gap-4">
-			{buttons.map((label, index) => (
+		<div className="flex gap-8">
+			<div
+				className="grid grid-cols-4 gap-6"
+				style={{
+					width: "70%"
+				}}
+			>
+							{buttons.map((label, index) => (
 				<Button
 					key={index}
 					className="col-span-1"
-					onClick={() => window.location.href = `/${label.toLowerCase()}`}
+					onClick={() => {items.push(label); console.log(items)}}
+					style={{
+						width: "100%",
+						height: "100px",
+						backgroundColor: "#f0f0f0",
+						borderRadius: "15px",
+						fontSize: "13px",
+						fontWeight: "bold",
+					}}
 				>
 					{label}
 				</Button>
 			))}
+			</div>
+			<div
+				className="flex flex-col gap-4"
+				style={{
+					width: "30%",
+					height: "95%",
+					backgroundColor: "#27272a",
+					borderRadius: "15px",
+					fontSize: "13px",
+					fontWeight: "bold",
+				}}
+			>
+				<Label
+					className="text-white text-2xl font-bold"
+					style={{
+						textAlign: "center",
+						marginTop: "10px",
+						marginLeft: "10px"
+					}}>
+					Subtotal: {0}
+				</Label>
+			</div>
 		</div>
+		
 	);
 }
