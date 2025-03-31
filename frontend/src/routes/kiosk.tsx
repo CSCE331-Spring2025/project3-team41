@@ -11,7 +11,7 @@ interface MenuItem {
 	description: string;
 	ingredients: string[];
 }
-const items: MenuItem[] = [];
+const items: string[] = [];
 
 
 export const Route = createFileRoute("/kiosk")({
