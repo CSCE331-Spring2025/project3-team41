@@ -4,14 +4,13 @@ import { UseFormReturn } from "react-hook-form";
 import { z, ZodTypeAny } from "zod";
 
 // TODO - default hidden
-export interface Definition<T, K = unknown> {
+export interface Definition<T> {
 	primaryKey?: boolean;
 	accessorKey: keyof T;
 	header: string;
 	sortable?: boolean;
 	cell?: (row: Row<T>) => JSX.Element;
 	type: ZodTypeAny;
-	preprocess?: (obj: unknown) => K;
 }
 
 export type GetEntries<T> = () => Promise<T[]>;
