@@ -1,8 +1,6 @@
 import * as React from "react";
 
-import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -25,7 +23,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { API_URL } from "@/lib/constants";
 
 export function EmployeeLogin() {
   const [open, setOpen] = React.useState(false);
@@ -125,7 +123,7 @@ export function ProfileForm() {
 
 async function CheckLogin(values: LoginForm): Promise<number> {
   const res = await fetch(
-    `http://localhost:3000/logins/${values.username}/${values.password}`
+    `${API_URL}/logins/${values.username}/${values.password}`
   );
   const json = await res.json();
 
