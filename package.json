@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@hono/oauth-providers": "^0.7.0",
+    "dotenv": "^16.4.7",
+    "zod": "^3.24.2"
+  }
+}
