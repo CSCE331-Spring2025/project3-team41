@@ -72,10 +72,10 @@ export function ProfileForm() {
     const check = await CheckLogin(values as LoginForm);
     if (check == 1) {
       //Employee
-      window.location.href = "/kiosk";
+      window.location.href = "/order";
     } else if (check == 2) {
       //Manager
-      window.location.href = "/kiosk";
+      window.location.href = "/display";
     } else {
       //Invalid
       setError("Invalid username or password. Please try again.");

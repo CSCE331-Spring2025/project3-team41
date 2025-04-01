@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import EmployeeLogin from "@/components/EmployeeLogin";
+import { API_URL } from "@/lib/constants";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -25,7 +26,7 @@ function Index() {
       <h1>Welcome</h1>
       <br />
       <Button onClick = { () => {
-        window.location.href = "http://localhost:3000/google";
+        window.location.href = `${API_URL}/google`;
       }}>
         Login with Google
       </Button>
