@@ -4,6 +4,8 @@ import { Label } from "@/components/ui/label";
 import { API_URL } from "@/lib/constants";
 import { useEffect, useState } from "react";
 import { ok } from "@/lib/fetchUtils";
+import { ItemWidget } from "@/components/ItemWidget";
+import ReactDOM from "react-dom/client";
 // import { set } from "react-hook-form";
 
 interface MenuItem {
@@ -55,9 +57,8 @@ function RouteComponent() {
 			items.forEach((item) => {
 				const itemDiv = document.createElement("div");
 				itemDiv.className = "text-white";
-				itemDiv.id = item.item;
-				itemDiv.style = "margin-left: 10px";
-				itemDiv.innerHTML = `${item.item}`;
+				const root = ReactDOM.createRoot(itemDiv);
+				root.render(<ItemWidget item={item} />);
 				checkoutItems.appendChild(itemDiv);
 			});
 		}
@@ -80,12 +81,33 @@ function RouteComponent() {
 						const item = full_menu.find((item) => item.item === label);
 						console.log("Item found:", item);
 						if (item) {
-							items.push(item); 
-							subtotal += item.price;
-							console.log("Subtotal:", subtotal);
-							updateCheckoutMenu();
+							if(!items.find((i) => i.item === item.item)) {
+								items.push(item); 
+								subtotal += item.price;
+								console.log("Subtotal:", subtotal);
+								updateCheckoutMenu();
+							}
 						} else {
 							console.error(`Item with label "${label}" not found in the menu.`);
+						}
+					}}
+					onMouseOver={(event) => {
+						const button = event.currentTarget as HTMLButtonElement;
+						if (button) {
+							// button.style.backgroundColor = "#f7a663";
+							button.style.backgroundImage = `url(${full_menu[index].image_url})`;
+							button.style.backgroundSize = "cover";
+							button.style.backgroundPosition = "center";
+							button.style.transition = "background-image 0.3s ease";
+						}
+						console.log("Hovering over button:", label);
+					}}
+					onMouseOut={(event) => {
+						const button = event.currentTarget as HTMLButtonElement;
+						if (button) {
+							// button.style.backgroundColor = "#f0f0f0";
+							button.style.backgroundImage = "none";
+							button.style.transition = "background-image 0.3s ease";
 						}
 					}}
 					style={{
@@ -129,11 +151,6 @@ function RouteComponent() {
 						marginLeft: "10px"
 					}}
 				>
-					{items.map((item, index) => (
-						<div key={index} className="text-white">
-							{item.item}
-						</div>
-					))}
 				</div>
 			</div>
 		</div>
