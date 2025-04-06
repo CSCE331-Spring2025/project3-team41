@@ -46,21 +46,19 @@ function RouteComponent() {
 		fetchMenu();
 	}, []);
 
-	function updateCheckoutMenu() {
+	function updateCheckoutMenu(item: MenuItem) {
 		const subtotalLabel = document.getElementById("subtotal-label");
 		const checkoutItems = document.getElementById("checkout-items");
 		if (subtotalLabel) {
-			subtotalLabel.innerHTML = `Total: $${(subtotal * 1.0825).toFixed(2)}`;
+			// subtotalLabel.innerHTML = `Total: $${(subtotal * 1.0825).toFixed(2)}`;
 		}
 		if (checkoutItems) {
-			checkoutItems.innerHTML = ""; 
-			items.forEach((item) => {
-				const itemDiv = document.createElement("div");
-				itemDiv.className = "text-white";
-				const root = ReactDOM.createRoot(itemDiv);
-				root.render(<ItemWidget item={item} />);
-				checkoutItems.appendChild(itemDiv);
-			});
+			// checkoutItems.innerHTML = ""; 
+			const itemDiv = document.createElement("div");
+			itemDiv.className = "text-white";
+			const root = ReactDOM.createRoot(itemDiv);
+			root.render(<ItemWidget item={item} />);
+			checkoutItems.appendChild(itemDiv);
 		}
 	}
 
@@ -69,23 +67,23 @@ function RouteComponent() {
 			<div
 				className="grid grid-cols-4 gap-6"
 				style={{
-					width: "70%"
+					width: "70%",
 				}}
 			>
 			{buttons.map((label, index) => (
 				<Button
 					key={index}
-					className="col-span-1"
+					className="col-span-1 hover:bg-[url({full_menu[index].image_url})]"
 					onClick={() => {
-						console.log("Just making sure this exists!", full_menu);
+						// console.log("Just making sure this exists!", full_menu);
 						const item = full_menu.find((item) => item.item === label);
-						console.log("Item found:", item);
+						// console.log("Item found:", item);
 						if (item) {
 							if(!items.find((i) => i.item === item.item)) {
 								items.push(item); 
 								subtotal += item.price;
-								console.log("Subtotal:", subtotal);
-								updateCheckoutMenu();
+								// console.log("Subtotal:", subtotal);
+								updateCheckoutMenu(item);
 							}
 						} else {
 							console.error(`Item with label "${label}" not found in the menu.`);
@@ -99,8 +97,9 @@ function RouteComponent() {
 							button.style.backgroundSize = "cover";
 							button.style.backgroundPosition = "center";
 							button.style.transition = "background-image 0.3s ease";
+							button.style.color = "rgba(0, 0, 0, 0)";
 						}
-						console.log("Hovering over button:", label);
+						// console.log("Hovering over button:", label);
 					}}
 					onMouseOut={(event) => {
 						const button = event.currentTarget as HTMLButtonElement;
@@ -108,6 +107,7 @@ function RouteComponent() {
 							// button.style.backgroundColor = "#f0f0f0";
 							button.style.backgroundImage = "none";
 							button.style.transition = "background-image 0.3s ease";
+							button.style.color = "black";
 						}
 					}}
 					style={{
@@ -132,9 +132,10 @@ function RouteComponent() {
 					borderRadius: "15px",
 					fontSize: "13px",
 					fontWeight: "bold",
+					overflowY: "auto"
 				}}
 			>
-				<Label
+				{/* <Label
 					className="text-white text-2xl font-bold"
 					id="subtotal-label"
 					style={{
@@ -143,15 +144,17 @@ function RouteComponent() {
 						marginLeft: "10px"
 					}}>
 					Total: ${0.00.toFixed(2)}
-				</Label>
+				</Label> */}
 				<div 
-					className="flex flex-col gap-2" 
+					className="flex flex-col gap-8" 
 					id="checkout-items"
 					style={{
-						marginLeft: "10px"
+						marginTop: "20px",
+						marginLeft: "15%"
 					}}
 				>
 				</div>
+
 			</div>
 		</div>
 		
