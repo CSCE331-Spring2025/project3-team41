@@ -46,6 +46,23 @@ function RouteComponent() {
 		fetchMenu();
 	}, []);
 
+	//*****************Begin user token************************* */
+	const params = new URLSearchParams(window.location.search);
+	const token = params.get('token');
+	const userString = params.get('user');
+	let usersName = "";
+
+	if (token && userString) {
+	try {
+		const user = JSON.parse(decodeURIComponent(userString));
+		console.log('Logged in user:', user.name);
+		usersName = user.name;
+	} catch (err) {
+		console.error('Error parsing user object:', err);
+	}
+	}
+//***********************End user token************************* */
+
 	function updateCheckoutMenu() {
 		const subtotalLabel = document.getElementById("subtotal-label");
 		const checkoutItems = document.getElementById("checkout-items");
