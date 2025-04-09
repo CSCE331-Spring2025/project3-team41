@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build && netlify deploy --prod",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite build && vite preview"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",

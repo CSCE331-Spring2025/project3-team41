@@ -66,21 +66,31 @@ app.get("/get_menu", async (c) => {
 // Get profit over time
 app.get("/report/SalesOverTime", async (c) => {
   const profitOverTime = await sql`
-		SELECT 
-			date,
-			SUM(price) - (
-		  		SELECT coalesce(SUM(i.cost), 0)
-		  		FROM unnest(o.drinks) as drink
-		  		JOIN menu m ON m.item = drink
-		  		JOIN unnest(m.ingredients) as ing ON TRUE
-		  		JOIN ingredients i ON i.ingredient = ing
-			) as profit
-	  	FROM 
-			orders o
-	  	GROUP BY 
-			date
-	  	ORDER BY 
-			date ASC`;
+		WITH order_profits AS (
+        SELECT 
+            o.date,
+            o.order_id,
+            ROUND(CAST(o.price AS NUMERIC) - COALESCE((
+                SELECT CAST(SUM(i.cost) AS NUMERIC)
+                FROM unnest(o.drinks) AS drink
+                JOIN menu m ON m.item = drink
+                JOIN unnest(m.ingredients) AS ing ON TRUE
+                JOIN ingredients i ON i.ingredient = ing
+            ), 0), 2) AS profit
+        FROM orders o
+    ),
+    daily_profits AS (
+        SELECT 
+            date,
+            ROUND(SUM(profit), 2) AS daily_profit
+        FROM order_profits
+        GROUP BY date
+    )
+    SELECT 
+        date,
+        ROUND(SUM(daily_profit) OVER (ORDER BY date), 2) AS cumulative_profit
+    FROM daily_profits
+    ORDER BY date`;
   return c.json(profitOverTime);
 });
 
