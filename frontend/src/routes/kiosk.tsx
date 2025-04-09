@@ -4,8 +4,8 @@ import { Label } from "@/components/ui/label";
 import { API_URL } from "@/lib/constants";
 import { useEffect, useState } from "react";
 import { ok } from "@/lib/fetchUtils";
-import { ItemWidget } from "@/components/ItemWidget";
-import ReactDOM from "react-dom/client";
+// import { ItemWidget } from "@/components/ItemWidget";
+import { SquareMinus, SquarePlus } from "lucide-react";
 // import { set } from "react-hook-form";
 
 interface MenuItem {
@@ -16,17 +16,19 @@ interface MenuItem {
 	ingredients: string[];
 }
 
-let items: MenuItem[] = [];
-let full_menu: MenuItem[] = [];
-let subtotal: number = 0.00;
-
+export interface OrderItem {
+	item: MenuItem;
+	quantity: number;
+	totalPrice: number;
+}
+export default OrderItem;
 
 export const Route = createFileRoute("/kiosk")({
 	component: RouteComponent,
 });
 
 function RouteComponent() {
-	async function getMenu() : Promise<MenuItem[]> {
+	async function getMenu(): Promise<MenuItem[]> {
 		const res = await ok(
 			fetch(`${API_URL}/edit/menu`, {
 				method: "GET",
@@ -35,16 +37,69 @@ function RouteComponent() {
 		return res.json();
 	}
 	// console.log("Fetching menu...");
-	const [buttons, setButtons] = useState<string[]>([]);
+	const [fullMenu, setFullMenu] = useState<MenuItem[]>([]);
+	const [order, setOrder] = useState<OrderItem[]>([]);
 
 	useEffect(() => {
 		async function fetchMenu() {
-			full_menu = await getMenu();
-			setButtons(full_menu.map((item) => item.item));
-			console.log("Menu fetched:", full_menu);
+			const f_menu = await getMenu();
+			setFullMenu(f_menu);
+			console.log("Menu fetched:", f_menu);
 		}
 		fetchMenu();
 	}, []);
+
+	function ItemWidget(o_item: OrderItem, index: number) {
+		const item = o_item.item;
+		return (
+			<div className="flex flex-col items-center justify-center bg-gray-800 p-4 rounded-lg shadow-md w-64" key={index}>
+				<h2 className="text-xl font-bold text-white">
+					{item.item}
+				</h2>
+				<p className="text-gray-400">
+					{item.description}
+				</p>
+				<p className="text-green-500 font-semibold">
+					$
+					{(
+						item.price * o_item.quantity
+					).toFixed(2)}
+				</p>
+				<div className="flex gap-2 mt-4">
+					<Button
+						className="hover:bg-gray-600 size-7"
+						onClick={() => {
+							setOrder((prevOrder) => {
+								const prev = [...prevOrder];
+								const index = order.findIndex((o_item) => o_item.item.item === item.item);
+								prev[index!].quantity += 1;
+								return prev;
+							});	
+						}}
+					>
+						<SquarePlus />
+					</Button>
+					<Label className="text-white text-lg">
+						{o_item.quantity}
+					</Label>
+					<Button
+						className="hover:bg-gray-600 size-7"
+						onClick={() => {
+							setOrder((prevOrder) => {
+								const prev = [...prevOrder];
+								const index = order.findIndex((o_item) => o_item.item.item === item.item);
+								prev[index!].quantity -= 1;
+								return prev;
+							});	
+							
+						}}
+						disabled={o_item.quantity <= 1}
+					>
+						<SquareMinus />
+					</Button>
+				</div>
+			</div>
+		);
 
 	//*****************Begin user token************************* */
 	const params = new URLSearchParams(window.location.search);
@@ -62,83 +117,65 @@ function RouteComponent() {
 	}
 	}
 //***********************End user token************************* */
-
-	function updateCheckoutMenu() {
-		const subtotalLabel = document.getElementById("subtotal-label");
-		const checkoutItems = document.getElementById("checkout-items");
-		if (subtotalLabel) {
-			subtotalLabel.innerHTML = `Total: $${(subtotal * 1.0825).toFixed(2)}`;
-		}
-		if (checkoutItems) {
-			checkoutItems.innerHTML = ""; 
-			items.forEach((item) => {
-				const itemDiv = document.createElement("div");
-				itemDiv.className = "text-white";
-				const root = ReactDOM.createRoot(itemDiv);
-				root.render(<ItemWidget item={item} />);
-				checkoutItems.appendChild(itemDiv);
-			});
-		}
 	}
 
-	return (		
+	return (
 		<div className="flex gap-8">
 			<div
 				className="grid grid-cols-4 gap-6"
 				style={{
-					width: "70%"
+					width: "70%",
 				}}
 			>
-			{buttons.map((label, index) => (
-				<Button
-					key={index}
-					className="col-span-1"
-					onClick={() => {
-						console.log("Just making sure this exists!", full_menu);
-						const item = full_menu.find((item) => item.item === label);
-						console.log("Item found:", item);
-						if (item) {
-							if(!items.find((i) => i.item === item.item)) {
-								items.push(item); 
-								subtotal += item.price;
-								console.log("Subtotal:", subtotal);
-								updateCheckoutMenu();
-							}
-						} else {
-							console.error(`Item with label "${label}" not found in the menu.`);
-						}
-					}}
-					onMouseOver={(event) => {
-						const button = event.currentTarget as HTMLButtonElement;
-						if (button) {
-							// button.style.backgroundColor = "#f7a663";
-							button.style.backgroundImage = `url(${full_menu[index].image_url})`;
-							button.style.backgroundSize = "cover";
-							button.style.backgroundPosition = "center";
-							button.style.transition = "background-image 0.3s ease";
-						}
-						console.log("Hovering over button:", label);
-					}}
-					onMouseOut={(event) => {
-						const button = event.currentTarget as HTMLButtonElement;
-						if (button) {
-							// button.style.backgroundColor = "#f0f0f0";
-							button.style.backgroundImage = "none";
-							button.style.transition = "background-image 0.3s ease";
-						}
-					}}
-					style={{
-						width: "100%",
-						height: "100px",
-						backgroundColor: "#f0f0f0",
-						borderRadius: "15px",
-						fontSize: "13px",
-						fontWeight: "bold",
-					}}
-				>
-					{label}
-				</Button>
-			))}
+				{fullMenu.map((item, index) => (
+					<Button
+						key={index}
+						className="col-span-1 hover:bg-[url({full_menu[index].image_url})]"
+						onClick={() => {
+							let newItem: OrderItem = {
+								item: item,
+								quantity: 1,
+								totalPrice: item.price,
+							};
+							setOrder((prevOrder) => [...prevOrder, newItem]);
+						}}
+						// onMouseOver={(event) => {
+						// 	const button =
+						// 		event.currentTarget as HTMLButtonElement;
+						// 	if (button) {
+						// 		// button.style.backgroundColor = "#f7a663";
+						// 		button.style.backgroundImage = `url(${fullMenu[index].image_url})`;
+						// 		button.style.backgroundSize = "cover";
+						// 		button.style.backgroundPosition = "center";
+						// 		button.style.transition =
+						// 			"background-image 0.3s ease";
+						// 		button.style.color = "rgba(0, 0, 0, 0)";
+						// 	}
+						// 	// console.log("Hovering over button:", label);
+						// }}
+						// onMouseOut={(event) => {
+						// 	const button =
+						// 		event.currentTarget as HTMLButtonElement;
+						// 	if (button) {
+						// 		// button.style.backgroundColor = "#f0f0f0";
+						// 		button.style.backgroundImage = "none";
+						// 		button.style.transition =
+						// 			"background-image 0.3s ease";
+						// 		button.style.color = "black";
+						// 	}
+						// }}
+						style={{
+							width: "100%",
+							height: "100px",
+							backgroundColor: "#f0f0f0",
+							borderRadius: "15px",
+							fontSize: "13px",
+							fontWeight: "bold",
+						}}
+					>
+						{item.item}
+					</Button>
+				))}
 			</div>
 			<div
 				className="flex flex-col gap-4"
@@ -149,6 +186,7 @@ function RouteComponent() {
 					borderRadius: "15px",
 					fontSize: "13px",
 					fontWeight: "bold",
+					overflowY: "auto",
 				}}
 			>
 				<Label
@@ -159,18 +197,64 @@ function RouteComponent() {
 						marginTop: "10px",
 						marginLeft: "10px"
 					}}>
-					Total: ${0.00.toFixed(2)}
+					Total: ${order.reduce((acc, i) => acc += i.quantity * i.item.price, 0).toFixed(2)}
 				</Label>
-				<div 
-					className="flex flex-col gap-2" 
-					id="checkout-items"
+
+				{order.map((o_item, index) => ItemWidget(o_item, index))}
+				
+				<Button
+					className="text-black bg-green-500 hover:bg-green-700"
 					style={{
-						marginLeft: "10px"
+						width: "80%",
+						height: "50px",
+						borderRadius: "15px",
+						fontSize: "20px",
+						fontWeight: "bold",
+						marginLeft: "10%",
+					}}
+					onClick={() => {
+						const checkoutItems =
+							document.getElementById("checkout-items");
+						console.log(checkoutItems);
+						// console.log("Items:", items);
+						if (checkoutItems) {
+							const item_cards =
+								checkoutItems.getElementsByTagName("div");
+							console.log("Item Cards:", item_cards);
+							var orderingList = []; //dictionary of items and their total price
+							for (let i = 0; i < item_cards.length; ++i) {
+								const item_card = item_cards[i];
+								const itemWidget =
+									item_card.firstChild as HTMLElement;
+								console.log("Item Widget:", itemWidget);
+								if (itemWidget) {
+									const itemName =
+										itemWidget.querySelector(
+											"h2"
+										)?.textContent;
+									const itemPrice =
+										itemWidget.querySelector(
+											"p"
+										)?.textContent;
+									console.log("Item Price:", itemPrice);
+									if (itemName && itemPrice) {
+										const price = parseFloat(
+											itemPrice.replace(/[^0-9.-]+/g, "")
+										);
+										orderingList.push({
+											name: itemName,
+											price: price,
+										});
+									}
+								}
+							}
+							console.log("Ordering List:", orderingList);
+						}
 					}}
 				>
-				</div>
+					Checkout
+				</Button>
 			</div>
 		</div>
-		
 	);
 }
