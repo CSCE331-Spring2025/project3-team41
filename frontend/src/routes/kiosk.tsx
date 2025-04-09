@@ -49,6 +49,23 @@ function RouteComponent() {
 		fetchMenu();
 	}, []);
 
+	//*****************Begin user token************************* */
+	const params = new URLSearchParams(window.location.search);
+	const token = params.get('token');
+	const userString = params.get('user');
+	let usersName = "";
+
+	if (token && userString) {
+		try {
+			const user = JSON.parse(decodeURIComponent(userString));
+			console.log('Logged in user:', user.name);
+			usersName = user.name;
+		} catch (err) {
+			console.error('Error parsing user object:', err);
+		}
+	}
+	//***********************End user token************************* */
+
 	function ItemWidget(o_item: OrderItem, index: number) {
 		const item = o_item.item;
 		return (
@@ -100,23 +117,6 @@ function RouteComponent() {
 				</div>
 			</div>
 		);
-
-	//*****************Begin user token************************* */
-	const params = new URLSearchParams(window.location.search);
-	const token = params.get('token');
-	const userString = params.get('user');
-	let usersName = "";
-
-	if (token && userString) {
-	try {
-		const user = JSON.parse(decodeURIComponent(userString));
-		console.log('Logged in user:', user.name);
-		usersName = user.name;
-	} catch (err) {
-		console.error('Error parsing user object:', err);
-	}
-	}
-//***********************End user token************************* */
 	}
 
 	return (
