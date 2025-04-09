@@ -1,4 +1,4 @@
-const environment: string = "development";
+const environment = process.env.NODE_ENV;
 
 export const API_URL =
     environment === "development"

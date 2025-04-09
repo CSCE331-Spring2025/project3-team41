@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
 import EmployeeLogin from "@/components/EmployeeLogin";
 import { API_URL } from "@/lib/constants";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
+
 
 // Make index.tsx into the login screen
 function Index() {
@@ -22,22 +22,25 @@ function Index() {
   // }, []);
 
   return (
-    <div>
-      <h1>Welcome</h1>
+    <div className = "relative h-screen flex flex-col items-center justify-center bg-black">
+      <img src = "PFU.jpg" alt = "Pink Fluffy Unicorns Logo" className= "h-128 w-128 object-scale-down px-20"></img>
+
+      <div className="absolute top-4 right-4"><EmployeeLogin/></div>
+
+      <h1 className = "text-8xl font-bold mb-10">Welcome!</h1>
       <br />
-      <Button onClick = { () => {
+
+      <Button className = "text-4xl mb-4 py-8" onClick = { () => {
         window.location.href = `${API_URL}/google`;
       }}>
         Login with Google
       </Button>
 
     <Link to="/kiosk">
-	  <Button>
+	  <Button className="text-4xl py-8">
         Login as Guest
       </Button>
       </Link>
-
-      <EmployeeLogin />
     </div>
   );
 }

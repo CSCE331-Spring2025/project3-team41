@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,9 +28,10 @@ export function EmployeeLogin() {
   const [open, setOpen] = React.useState(false);
 
   return (
+    <div>
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Employee/Manager Login</Button>
+        <Button className="bg-black text-white">Employee/Manager Login</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -43,6 +43,7 @@ export function EmployeeLogin() {
         <ProfileForm />
       </DialogContent>
     </Dialog>
+    </div>
   );
 }
 
