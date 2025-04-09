@@ -1,4 +1,4 @@
-const environment = process.env.environment;
+const environment = import.meta.env.environment;
 
 export const API_URL =
     environment === "development"
