@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import EmployeeLogin from "@/components/EmployeeLogin";
 import { API_URL } from "@/lib/constants";
+import { Translate } from "@/components/translate";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -10,22 +11,13 @@ export const Route = createFileRoute("/")({
 
 // Make index.tsx into the login screen
 function Index() {
-  // Create a request to the backend at "/" and parse the request
-  // useEffect(() => {
-  // 	async function getHome() {
-  // 		const res = await fetch("http://localhost:3000/");
-  // 		const json = await res.json();
-  // 		console.log(json["status"]);
-  // 	}
-
-  // 	getHome();
-  // }, []);
-
   return (
     <div className = "relative h-screen flex flex-col items-center justify-center bg-black">
       <img src = "PFU.jpg" alt = "Pink Fluffy Unicorns Logo" className= "h-128 w-128 object-scale-down px-20"></img>
 
       <div className="absolute top-4 right-4"><EmployeeLogin/></div>
+
+      <Translate/>
 
       <h1 className = "text-8xl font-bold mb-10">Welcome!</h1>
       <br />
