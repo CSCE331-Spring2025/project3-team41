@@ -290,3 +290,122 @@ Payment screen
 
 Roadblocks:
 Figuring out accessibility
+
+## 4/9
+
+-   Lilly
+
+Done:
+Payment Screen for Employees
+
+TODO:
+Update ingredients,
+Improve payment screen,
+look into accessibility
+
+Block:
+Miscellaneous error
+
+-   Shri
+
+Done:
+Improve Kiosk with checkout
+
+TODO:
+Fixed issues with Kiosk
+
+Block:
+None
+
+-   Evan
+
+Done:
+Correct Redirect with authentication
+
+TODO:
+Google Translate
+
+Block:
+Poor and cannot afford google translate
+
+-   May
+
+Done:
+Backend for profit over time
+
+TODO:
+UI for profit over time
+
+Blocks:
+None
+
+-   Owen
+
+Done:
+X Report,
+Z Report
+
+TODO:
+Static Menu
+
+Blocks:
+None
+
+## 4/11
+
+- Owen
+
+Done:
+Started static menu
+
+TODO:
+Allergens and finish static menu
+
+Block: 
+React x2 and env
+
+- Lilly
+
+Done:
+Fixed payment,
+Backend for payment,
+Updated ingredients
+
+TODO:
+Accessability contrast
+
+Blocks:
+Issues with env
+
+- May
+
+Done:
+Profit over time
+
+TODO:
+Weather API
+
+Blocks:
+Limiting the time frame of the report
+
+- Evan
+
+Done:
+Google Translate API
+
+TODO:
+Finish translations
+
+Blocks:
+Issues with tree walking
+
+- Shri
+
+Done:
+Working on kiosk
+
+TODO:
+Integrate order with kiosk
+
+Block:
+React running twice

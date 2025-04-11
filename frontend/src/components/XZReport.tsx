@@ -19,7 +19,7 @@ function XZReport({ report }: Props) {
 		async function getReport() {
 			const res = await fetch(`${API_URL}/order/${report}`);
 			const json = await res.json();
-			setOrders(json);
+			setOrders((orders) => (json.length === 0 ? orders : json));
 		}
 
 		getReport();

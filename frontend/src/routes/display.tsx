@@ -1,11 +1,12 @@
 import {
 	Card,
 	CardContent,
+	CardDescription,
 	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { API_URL } from "@/lib/constants";
+import { useAllergenMenu } from "@/hooks/useAllergenMenu";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 
@@ -14,21 +15,11 @@ export const Route = createFileRoute("/display")({
 });
 
 function RouteComponent() {
-	const [menu, setMenu] = useState<any[]>([]);
+	const menu = useAllergenMenu();
 	const containerRef = useRef<HTMLDivElement>(null);
 	const [scrollingDown, setScrollingDown] = useState(true);
 	const [paused, setPaused] = useState(false);
 	const lastTimeRef = useRef(performance.now());
-
-	useEffect(() => {
-		async function getMenu() {
-			const res = await fetch(`${API_URL}/edit/menu`);
-			const json = await res.json();
-			setMenu(json);
-		}
-
-		getMenu();
-	}, []);
 
 	useEffect(() => {
 		const container = containerRef.current;
@@ -80,26 +71,37 @@ function RouteComponent() {
 	}, [scrollingDown, paused]);
 
 	return (
-			<div
-				className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 px-4 mb-4 overflow-y-hidden max-h-screen"
-				ref={containerRef}
-			>
-				{menu.map((item, index) => (
-					<Card key={index}>
-						<CardHeader className="flex justify-center text-center">
-							<CardTitle>{item.item}</CardTitle>
-						</CardHeader>
-						<CardContent className="flex grow">
-							<img
-								src={item.image_url ?? "/PFU.jpg"}
-								className="aspect-square object-contain"
-							/>
-						</CardContent>
-						<CardFooter className="flex justify-center">
-							${item.price.toFixed(2)}
-						</CardFooter>
-					</Card>
-				))}
-			</div>
+		<div
+			className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 px-4 mb-4 overflow-y-hidden max-h-screen"
+			ref={containerRef}
+		>
+			{menu.map((item, index) => (
+				<Card key={index}>
+					<CardHeader>
+						<CardTitle className="text-center">
+							{item.item}
+						</CardTitle>
+						{item.allergens.length !== 0 && (
+							<CardDescription className="flex justify-center gap-4 mt-2">
+								{item.allergens.map(
+									(al: any, index: number) => (
+										<div key={index}>{al}</div>
+									)
+								)}
+							</CardDescription>
+						)}
+					</CardHeader>
+					<CardContent className="flex grow">
+						<img
+							src={item.image_url ?? "/PFU.jpg"}
+							className="aspect-square object-contain"
+						/>
+					</CardContent>
+					<CardFooter className="flex justify-center">
+						${item.price.toFixed(2)}
+					</CardFooter>
+				</Card>
+			))}
+		</div>
 	);
 }
