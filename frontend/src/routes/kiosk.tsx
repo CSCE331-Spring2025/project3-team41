@@ -38,7 +38,7 @@ function RouteComponent() {
 	}
 	// console.log("Fetching menu...");
 	const [fullMenu, setFullMenu] = useState<MenuItem[]>([]);
-	const [order, setOrder] = useState<OrderItem[]>([]);
+	let [order, setOrder] = useState<OrderItem[]>([]);
 
 	useEffect(() => {
 		async function fetchMenu() {
@@ -51,36 +51,34 @@ function RouteComponent() {
 
 	//*****************Begin user token************************* */
 	const params = new URLSearchParams(window.location.search);
-	const token = params.get('token');
-	const userString = params.get('user');
+	const token = params.get("token");
+	const userString = params.get("user");
 	let usersName = "";
 
 	if (token && userString) {
 		try {
 			const user = JSON.parse(decodeURIComponent(userString));
-			console.log('Logged in user:', user.name);
+			console.log("Logged in user:", user.name);
 			usersName = user.name;
 		} catch (err) {
-			console.error('Error parsing user object:', err);
+			console.error("Error parsing user object:", err);
 		}
 	}
 	//***********************End user token************************* */
 
 	function ItemWidget(o_item: OrderItem, index: number) {
 		const item = o_item.item;
+
 		return (
-			<div className="flex flex-col items-center justify-center bg-gray-800 p-4 rounded-lg shadow-md w-64" key={index}>
-				<h2 className="text-xl font-bold text-white">
-					{item.item}
-				</h2>
-				<p className="text-gray-400">
-					{item.description}
-				</p>
+			<div
+				className="flex flex-col items-center justify-center bg-gray-800 p-4 rounded-lg shadow-md w-64"
+				style={{ marginLeft: "15%" }}
+				key={index}
+			>
+				<h2 className="text-xl font-bold text-white">{item.item}</h2>
+				<p className="text-gray-400">{item.description}</p>
 				<p className="text-green-500 font-semibold">
-					$
-					{(
-						item.price * o_item.quantity
-					).toFixed(2)}
+					${(item.price * o_item.quantity).toFixed(2)}
 				</p>
 				<div className="flex gap-2 mt-4">
 					<Button
@@ -88,10 +86,13 @@ function RouteComponent() {
 						onClick={() => {
 							setOrder((prevOrder) => {
 								const prev = [...prevOrder];
-								const index = order.findIndex((o_item) => o_item.item.item === item.item);
+								const index = order.findIndex(
+									(o_item) => o_item.item.item === item.item
+								);
 								prev[index!].quantity += 1;
+								prev[index!].totalPrice += item.price;
 								return prev;
-							});	
+							});
 						}}
 					>
 						<SquarePlus />
@@ -104,11 +105,13 @@ function RouteComponent() {
 						onClick={() => {
 							setOrder((prevOrder) => {
 								const prev = [...prevOrder];
-								const index = order.findIndex((o_item) => o_item.item.item === item.item);
+								const index = order.findIndex(
+									(o_item) => o_item.item.item === item.item
+								);
 								prev[index!].quantity -= 1;
+								prev[index!].totalPrice -= item.price;
 								return prev;
-							});	
-							
+							});
 						}}
 						disabled={o_item.quantity <= 1}
 					>
@@ -117,6 +120,45 @@ function RouteComponent() {
 				</div>
 			</div>
 		);
+	}
+
+	async function sendOrder() {
+		console.log("Users name:", usersName);
+		console.log("Order:", order);
+		if (order.length === 0) {
+			alert("Please add items to your order before submitting.");
+			return;
+		}
+		if (usersName === "") {
+			// Get username
+			
+		}
+
+		try {
+			await ok(
+				fetch(`${API_URL}/order`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						customer_name: usersName,
+						order,
+						price: order
+							.reduce(
+								(acc, i) => (acc += i.quantity * i.item.price),
+								0
+							)
+							.toFixed(2),
+					}),
+				})
+			);
+			alert("Order submitted!");
+			order = [];
+		} catch (err) {
+			console.error("Failed to submit order:", err);
+			alert("Failed to submit order.");
+		}
 	}
 
 	return (
@@ -130,40 +172,59 @@ function RouteComponent() {
 				{fullMenu.map((item, index) => (
 					<Button
 						key={index}
-						className="col-span-1 hover:bg-[url({full_menu[index].image_url})]"
+						className="col-span-1 hover:bg-[url({fullMenu[index].image_url})]"
 						onClick={() => {
-							let newItem: OrderItem = {
-								item: item,
-								quantity: 1,
-								totalPrice: item.price,
-							};
-							setOrder((prevOrder) => [...prevOrder, newItem]);
+							if (
+								!order.find(
+									(o_item) => o_item.item.item === item.item
+								)
+							) {
+								let newItem: OrderItem = {
+									item: item,
+									quantity: 1,
+									totalPrice: item.price,
+								};
+								setOrder((prevOrder) => [
+									...prevOrder,
+									newItem,
+								]);
+							} else {
+								setOrder((prevOrder) => {
+									const prev = [...prevOrder];
+									const index = order.findIndex(
+										(o_item) =>
+											o_item.item.item === item.item
+									);
+									prev[index!].quantity += 1;
+									return prev;
+								});
+							}
 						}}
-						// onMouseOver={(event) => {
-						// 	const button =
-						// 		event.currentTarget as HTMLButtonElement;
-						// 	if (button) {
-						// 		// button.style.backgroundColor = "#f7a663";
-						// 		button.style.backgroundImage = `url(${fullMenu[index].image_url})`;
-						// 		button.style.backgroundSize = "cover";
-						// 		button.style.backgroundPosition = "center";
-						// 		button.style.transition =
-						// 			"background-image 0.3s ease";
-						// 		button.style.color = "rgba(0, 0, 0, 0)";
-						// 	}
-						// 	// console.log("Hovering over button:", label);
-						// }}
-						// onMouseOut={(event) => {
-						// 	const button =
-						// 		event.currentTarget as HTMLButtonElement;
-						// 	if (button) {
-						// 		// button.style.backgroundColor = "#f0f0f0";
-						// 		button.style.backgroundImage = "none";
-						// 		button.style.transition =
-						// 			"background-image 0.3s ease";
-						// 		button.style.color = "black";
-						// 	}
-						// }}
+						onMouseOver={(event) => {
+							const button =
+								event.currentTarget as HTMLButtonElement;
+							if (button) {
+								// button.style.backgroundColor = "#f7a663";
+								button.style.backgroundImage = `url(${fullMenu[index].image_url})`;
+								button.style.backgroundSize = "cover";
+								button.style.backgroundPosition = "center";
+								button.style.transition =
+									"background-image 0.3s ease";
+								button.style.color = "rgba(0, 0, 0, 0)";
+							}
+							// console.log("Hovering over button:", label);
+						}}
+						onMouseOut={(event) => {
+							const button =
+								event.currentTarget as HTMLButtonElement;
+							if (button) {
+								// button.style.backgroundColor = "#f0f0f0";
+								button.style.backgroundImage = "none";
+								button.style.transition =
+									"background-image 0.3s ease";
+								button.style.color = "black";
+							}
+						}}
 						style={{
 							width: "100%",
 							height: "100px",
@@ -195,61 +256,31 @@ function RouteComponent() {
 					style={{
 						textAlign: "center",
 						marginTop: "10px",
-						marginLeft: "10px"
-					}}>
-					Total: ${order.reduce((acc, i) => acc += i.quantity * i.item.price, 0).toFixed(2)}
+						marginLeft: "10px",
+					}}
+				>
+					Total: $
+					{order
+						.reduce(
+							(acc, i) => (acc += i.quantity * i.item.price),
+							0
+						)
+						.toFixed(2)}
 				</Label>
 
 				{order.map((o_item, index) => ItemWidget(o_item, index))}
-				
+
 				<Button
-					className="text-black bg-green-500 hover:bg-green-700"
+					className="text-black bg-green-500 hover:bg-green-700 rounded-lg"
 					style={{
 						width: "80%",
 						height: "50px",
-						borderRadius: "15px",
 						fontSize: "20px",
 						fontWeight: "bold",
 						marginLeft: "10%",
 					}}
 					onClick={() => {
-						const checkoutItems =
-							document.getElementById("checkout-items");
-						console.log(checkoutItems);
-						// console.log("Items:", items);
-						if (checkoutItems) {
-							const item_cards =
-								checkoutItems.getElementsByTagName("div");
-							console.log("Item Cards:", item_cards);
-							var orderingList = []; //dictionary of items and their total price
-							for (let i = 0; i < item_cards.length; ++i) {
-								const item_card = item_cards[i];
-								const itemWidget =
-									item_card.firstChild as HTMLElement;
-								console.log("Item Widget:", itemWidget);
-								if (itemWidget) {
-									const itemName =
-										itemWidget.querySelector(
-											"h2"
-										)?.textContent;
-									const itemPrice =
-										itemWidget.querySelector(
-											"p"
-										)?.textContent;
-									console.log("Item Price:", itemPrice);
-									if (itemName && itemPrice) {
-										const price = parseFloat(
-											itemPrice.replace(/[^0-9.-]+/g, "")
-										);
-										orderingList.push({
-											name: itemName,
-											price: price,
-										});
-									}
-								}
-							}
-							console.log("Ordering List:", orderingList);
-						}
+						sendOrder();
 					}}
 				>
 					Checkout
