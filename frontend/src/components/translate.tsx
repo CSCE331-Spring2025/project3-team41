@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Button } from "@/components/ui/button";
 
 declare global {
   interface Window {
@@ -15,8 +16,11 @@ declare global {
 }
 
 export function Translate() {
+  const [isVisible, setIsVisible] = React.useState(false);
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  // Load Google Translate script once
   React.useEffect(() => {
-    // Initialize Google Translate
     if (document.getElementById("google-translate-script")) return;
 
     window.googleTranslateElementInit = () => {
@@ -32,22 +36,24 @@ export function Translate() {
       "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
     script.async = true;
     document.body.appendChild(script);
-
-    // Hide the Google Translate bar after the script is loaded
-    const hideTranslateBar = () => {
-      const translateBanner = document.querySelector(".goog-te-banner-frame")  as HTMLElement;
-      if (translateBanner) {
-        translateBanner.style.display = "none"; // Hide the bar
-      }
-    };
-
-    script.onload = hideTranslateBar;
-
-    return () => {
-      // Optional cleanup if you want to remove script on unmount
-      // document.body.removeChild(script);
-    };
   }, []);
 
-  return <div id="google_translate_element" className="absolute bottom-4 right-4"></div>;
+  return (
+    <>
+      <Button
+        onClick={() => setIsVisible((prev) => !prev)}
+        className="fixed bottom-12 right-4 z-50"
+      >
+        {isVisible ? "Hide Language" : "Select Language"}
+      </Button>
+
+      <div
+        id="google_translate_element"
+        ref={containerRef}
+        className={`fixed bottom-24 right-4 z-40 bg-white p-2 rounded shadow ${
+          isVisible ? "visible" : "invisible"
+        }`}
+      />
+    </>
+  );
 }

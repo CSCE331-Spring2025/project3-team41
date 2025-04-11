@@ -17,8 +17,6 @@ function Index() {
 
       <div className="absolute top-4 right-4"><EmployeeLogin/></div>
 
-      <Translate/>
-
       <h1 className = "text-8xl font-bold mb-10">Welcome!</h1>
       <br />
 
