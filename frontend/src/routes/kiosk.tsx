@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { ok } from "@/lib/fetchUtils";
 // import { ItemWidget } from "@/components/ItemWidget";
 import { SquareMinus, SquarePlus } from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
+
 // import { set } from "react-hook-form";
 
 interface MenuItem {
@@ -27,6 +29,7 @@ export const Route = createFileRoute("/kiosk")({
 });
 
 function RouteComponent() {
+	const navigate = useNavigate();
 	async function getMenu(): Promise<MenuItem[]> {
 		const res = await ok(
 			fetch(`${API_URL}/edit/menu`, {
@@ -131,15 +134,13 @@ function RouteComponent() {
 		return flattenedOrder;
 	}
 
-	async function sendOrder() {
+	function sendOrder() {
 		console.log("Users name:", usersName);
-		console.log("Order:", order);
 		if (order.length === 0) {
 			alert("Please add items to your order before submitting.");
 			return;
 		}
 		if (usersName === "") {
-			// Get username
 			const name = prompt("Please enter your name:");
 			if (name) {
 				usersName = name;
@@ -148,28 +149,17 @@ function RouteComponent() {
 				return;
 			}
 		}
-		const total = order.reduce((acc, i) => (acc += i.quantity * i.item.price), 0);
+		const total = order.reduce((acc, i) => acc + i.quantity * i.item.price, 0);
 		const drinks = flattenOrder(order);
-		console.log("Submitting order:", usersName, drinks, total);
-
-		try {
-			await ok(
-				fetch(`${API_URL}/order`, {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({
-						customer_name: usersName,
-						drinks,
-						price: total
-					}),
-				})
-			);
-			alert("Order submitted!");
-			order = [];
-		} catch (err) {
-			console.error("Failed to submit order:", err);
-			alert("Failed to submit order.");
-		}
+	
+		navigate({
+			to: "/payment",
+			state: {
+				customerName: usersName,
+				drinks,
+				total,
+			},
+		});
 	}
 
 	return (
