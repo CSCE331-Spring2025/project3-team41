@@ -1,4 +1,4 @@
-const environment = import.meta.env.VITE_ENVIRONMENT; // process.env.environment;
+const environment = process.env.NODE_ENV;
 
 export const API_URL =
     environment === "development"
