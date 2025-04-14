@@ -16,12 +16,11 @@ interface MenuItem {
 	ingredients: string[];
 }
 
-export interface OrderItem {
+interface OrderItem {
 	item: MenuItem;
 	quantity: number;
 	totalPrice: number;
 }
-export default OrderItem;
 
 export const Route = createFileRoute("/kiosk")({
 	component: RouteComponent,
@@ -122,6 +121,16 @@ function RouteComponent() {
 		);
 	}
 
+	function flattenOrder(order: OrderItem[]) {
+		let flattenedOrder: string[] = [];
+		order.forEach((item) => {
+			for (let i = 0; i < item.quantity; i++) {
+				flattenedOrder.push(item.item.item);
+			}
+		});
+		return flattenedOrder;
+	}
+
 	async function sendOrder() {
 		console.log("Users name:", usersName);
 		console.log("Order:", order);
@@ -131,25 +140,27 @@ function RouteComponent() {
 		}
 		if (usersName === "") {
 			// Get username
-			
+			const name = prompt("Please enter your name:");
+			if (name) {
+				usersName = name;
+			} else {
+				alert("Please enter a valid name.");
+				return;
+			}
 		}
+		const total = order.reduce((acc, i) => (acc += i.quantity * i.item.price), 0);
+		const drinks = flattenOrder(order);
+		console.log("Submitting order:", usersName, drinks, total);
 
 		try {
 			await ok(
 				fetch(`${API_URL}/order`, {
 					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
+					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({
 						customer_name: usersName,
-						order,
-						price: order
-							.reduce(
-								(acc, i) => (acc += i.quantity * i.item.price),
-								0
-							)
-							.toFixed(2),
+						drinks,
+						price: total
 					}),
 				})
 			);
