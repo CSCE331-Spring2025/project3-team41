@@ -5,7 +5,7 @@ import { API_URL } from "@/lib/constants";
 import { useEffect, useState } from "react";
 import { ok } from "@/lib/fetchUtils";
 // import { ItemWidget } from "@/components/ItemWidget";
-import { SquareMinus, SquarePlus } from "lucide-react";
+import { SquareMinus, SquarePlus, Trash2 } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
 
 // import { set } from "react-hook-form";
@@ -82,43 +82,65 @@ function RouteComponent() {
 				<p className="text-green-500 font-semibold">
 					${(item.price * o_item.quantity).toFixed(2)}
 				</p>
-				<div className="flex gap-2 mt-4">
-					<Button
-						className="hover:bg-gray-600 size-7"
-						onClick={() => {
-							setOrder((prevOrder) => {
-								const prev = [...prevOrder];
-								const index = order.findIndex(
-									(o_item) => o_item.item.item === item.item
-								);
-								prev[index!].quantity += 1;
-								prev[index!].totalPrice += item.price;
-								return prev;
-							});
-						}}
-					>
-						<SquarePlus />
-					</Button>
-					<Label className="text-white text-lg">
-						{o_item.quantity}
-					</Label>
-					<Button
-						className="hover:bg-gray-600 size-7"
-						onClick={() => {
-							setOrder((prevOrder) => {
-								const prev = [...prevOrder];
-								const index = order.findIndex(
-									(o_item) => o_item.item.item === item.item
-								);
-								prev[index!].quantity -= 1;
-								prev[index!].totalPrice -= item.price;
-								return prev;
-							});
-						}}
-						disabled={o_item.quantity <= 1}
-					>
-						<SquareMinus />
-					</Button>
+				<div className="flex flex-row justify-between items-center w-full mt-4">
+					<div className="flex gap-2 mt-4 margin-left-2 items-center">
+						<Button
+							className="hover:bg-gray-600 size-7"
+							onClick={() => {
+								setOrder((prevOrder) => {
+									const prev = [...prevOrder];
+									const index = order.findIndex(
+										(o_item) => o_item.item.item === item.item
+									);
+									prev[index!].quantity -= 1;
+									prev[index!].totalPrice -= item.price;
+									return prev;
+								});
+							}}
+							disabled={o_item.quantity <= 1}
+						>
+							<SquareMinus />
+						</Button>
+
+						<Label className="text-white text-lg">
+							{o_item.quantity}
+						</Label>
+
+						<Button
+							className="hover:bg-gray-600 size-7"
+							onClick={() => {
+								setOrder((prevOrder) => {
+									const prev = [...prevOrder];
+									const index = order.findIndex(
+										(o_item) => o_item.item.item === item.item
+									);
+									prev[index!].quantity += 1;
+									prev[index!].totalPrice += item.price;
+									return prev;
+								});
+							}}
+						>
+							<SquarePlus />
+						</Button>
+					</div>
+					
+					<div className="flex gap-2 mt-4 items-center">
+						<Button
+							className="hover:bg-red-700 size-7 bg-red-400"
+							onClick={() => {
+								setOrder((prevOrder) => {
+									const prev = [...prevOrder];
+									const index = order.findIndex(
+										(o_item) => o_item.item.item === item.item
+									);
+									prev.splice(index!, 1);
+									return prev;
+								});
+							}}
+						>
+							<Trash2></Trash2>
+						</Button>
+					</div>
 				</div>
 			</div>
 		);
