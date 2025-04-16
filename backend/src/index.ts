@@ -40,6 +40,23 @@ app.use(
 
 
 //************************************************************************** END OF GOOGLE API ********************************************* */
+//************************************************************************** BEGINNING OF WEATHER API ********************************************* */
+
+app.get("/weather", async (c) => {
+  const response = await fetch(
+    `http://api.weatherapi.com/v1/current.json?key=${process.env.WEATHER_API_KEY}&q=77840`
+  );
+  const weatherData = await response.json();
+  const dataNeeded = {
+    location: weatherData.location.name,
+    temp: weatherData.current.temp_f,
+    condition: weatherData.current.condition.text,
+  };
+
+  return c.json(dataNeeded);
+});
+
+//************************************************************************** END OF WEATHER API ********************************************* */
 
 app.get("/", (c) => {
   return c.json({ status: "operational" });
