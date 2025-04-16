@@ -171,6 +171,7 @@ function RouteComponent() {
 				return;
 			}
 		}
+    
 		const total = order.reduce((acc, i) => acc + i.quantity * i.item.price, 0);
 		const drinks = flattenOrder(order);
 	
