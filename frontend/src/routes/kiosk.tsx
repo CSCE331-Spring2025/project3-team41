@@ -83,7 +83,7 @@ function RouteComponent() {
 					${(item.price * o_item.quantity).toFixed(2)}
 				</p>
 				<div className="flex flex-row justify-between items-center w-full mt-4">
-					<div className="flex gap-2 mt-4 margin-left-2 items-center">
+					<div className="flex gap-2 mt-4 ml-18 items-center">
 						<Button
 							className="hover:bg-gray-600 size-7"
 							onClick={() => {
