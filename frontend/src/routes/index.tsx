@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import EmployeeLogin from "@/components/EmployeeLogin";
 import { API_URL } from "@/lib/constants";
-import { Translate } from "@/components/translate";
 
 export const Route = createFileRoute("/")({
   component: Index,

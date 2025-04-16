@@ -159,6 +159,7 @@ function AppSidebar({ children }: Props) {
 			<div className="flex gap-4 items-center">
 				<img
 					src={UnicornLogo}
+					alt = "Pink Fluffy Unicorn Logo"
 					className="rounded"
 					height={36}
 					width={36}
