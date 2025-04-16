@@ -88,11 +88,6 @@ const groups: Group[] = [
 				icon: <BookOpenText />,
 				link: { to: "/display" },
 			},
-			{
-				button: "Transaction History",
-				icon: <Clock />,
-				link: { to: "/history" },
-			},
 		],
 	},
 	{

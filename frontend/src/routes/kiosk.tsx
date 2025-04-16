@@ -7,6 +7,7 @@ import { ok } from "@/lib/fetchUtils";
 // import { ItemWidget } from "@/components/ItemWidget";
 import { SquareMinus, SquarePlus, Trash2 } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
+import { useAllergenMenu } from "@/hooks/useAllergenMenu";
 
 // import { set } from "react-hook-form";
 
@@ -36,33 +37,18 @@ export const Route = createFileRoute("/kiosk")({
 
 function RouteComponent() {
 	const navigate = useNavigate();
-	async function getMenu(): Promise<MenuItem[]> {
-		const res = await ok(
-			fetch(`${API_URL}/edit/menu`, {
-				method: "GET",
-			})
-		);
-		return res.json();
-	}
-	// console.log("Fetching menu...");
-	const [fullMenu, setFullMenu] = useState<MenuItem[]>([]);
+
+	const fullMenu = useAllergenMenu();
 	let [order, setOrder] = useState<OrderItem[]>([]);
 	const [weather, setWeather] = useState<WeatherData | null>(null);
 
 	useEffect(() => {
-		async function fetchMenu() {
-			const f_menu = await getMenu();
-			setFullMenu(f_menu);
-			console.log("Menu fetched:", f_menu);
-		}
-
 		async function fetchWeather() {
 			const response = await fetch(`${API_URL}/weather`);
 			const data = await response.json();
 			setWeather(data);
 		}
 
-		fetchMenu();
 		fetchWeather();
 	}, []);
 
@@ -105,7 +91,8 @@ function RouteComponent() {
 								setOrder((prevOrder) => {
 									const prev = [...prevOrder];
 									const index = order.findIndex(
-										(o_item) => o_item.item.item === item.item
+										(o_item) =>
+											o_item.item.item === item.item
 									);
 									prev[index!].quantity -= 1;
 									prev[index!].totalPrice -= item.price;
@@ -127,7 +114,8 @@ function RouteComponent() {
 								setOrder((prevOrder) => {
 									const prev = [...prevOrder];
 									const index = order.findIndex(
-										(o_item) => o_item.item.item === item.item
+										(o_item) =>
+											o_item.item.item === item.item
 									);
 									prev[index!].quantity += 1;
 									prev[index!].totalPrice += item.price;
@@ -138,7 +126,7 @@ function RouteComponent() {
 							<SquarePlus />
 						</Button>
 					</div>
-					
+
 					<div className="flex gap-2 mt-4 items-center">
 						<Button
 							className="hover:bg-red-700 size-7 bg-red-400"
@@ -146,7 +134,8 @@ function RouteComponent() {
 								setOrder((prevOrder) => {
 									const prev = [...prevOrder];
 									const index = order.findIndex(
-										(o_item) => o_item.item.item === item.item
+										(o_item) =>
+											o_item.item.item === item.item
 									);
 									prev.splice(index!, 1);
 									return prev;
@@ -186,10 +175,13 @@ function RouteComponent() {
 				return;
 			}
 		}
-    
-		const total = order.reduce((acc, i) => acc + i.quantity * i.item.price, 0);
+
+		const total = order.reduce(
+			(acc, i) => acc + i.quantity * i.item.price,
+			0
+		);
 		const drinks = flattenOrder(order);
-	
+
 		navigate({
 			to: "/payment",
 			state: {
@@ -204,10 +196,9 @@ function RouteComponent() {
 		<div className="flex flex-col">
 			{weather && (
 				<div className="w-full text-white p-2 text-center mb-4">
-				{weather.location}: {weather.temp}°F
+					{weather.location}: {weather.temp}°F
 				</div>
 			)}
-		
 
 			<div className="flex gap-8">
 				<div
@@ -223,7 +214,8 @@ function RouteComponent() {
 							onClick={() => {
 								if (
 									!order.find(
-										(o_item) => o_item.item.item === item.item
+										(o_item) =>
+											o_item.item.item === item.item
 									)
 								) {
 									let newItem: OrderItem = {
@@ -281,7 +273,16 @@ function RouteComponent() {
 								fontWeight: "bold",
 							}}
 						>
-							{item.item}
+							<div className="flex flex-col gap-2">
+								<div>{item.item}</div>
+								<div className="flex gap-2 justify-center">
+									{item.allergens.map(
+										(al: any, index: number) => (
+											<div key={index}>{al}</div>
+										)
+									)}
+								</div>
+							</div>
 						</Button>
 					))}
 				</div>
