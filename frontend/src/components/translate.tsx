@@ -15,7 +15,7 @@ declare global {
   }
 }
 
-export function Translate() {
+export function Translate() { //Its all one component
   const [isVisible, setIsVisible] = React.useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -40,7 +40,7 @@ export function Translate() {
 
   return (
     <>
-      <Button
+      <Button //Make the transaltion thing hidden
         onClick={() => setIsVisible((prev) => !prev)}
         className="fixed bottom-12 right-4 z-50"
       >
