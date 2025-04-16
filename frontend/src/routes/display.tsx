@@ -119,6 +119,7 @@ function RouteComponent() {
 						<CardContent className="flex grow">
 							<img
 								src={item.image_url ?? "/PFU.jpg"}
+								alt = "Pink Fluffy Unicorn Logo"
 								className="aspect-square object-contain"
 							/>
 						</CardContent>
