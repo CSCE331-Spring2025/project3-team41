@@ -52,3 +52,183 @@ To run the development server, first install the dependencies with `npm install`
 -   [Hono](https://hono.dev/)
     -   Has a lot of [middleware](https://hono.dev/docs/guides/middleware) built-in to ease the development process, such as input validation and authentication
     -   General quality of life compared to the older and more lean [Express](https://expressjs.com/)
+
+# Minutes
+
+## 3/24
+
+-   Owen
+
+Completed:
+N/A
+
+To Do:
+Manager Tables Sidebar
+
+Roadblocks:
+N/A
+
+-   Shri
+
+Completed:
+N/A
+
+To Do:
+Learn everything,
+Parse data from database,
+Get info from database
+
+Roadblocks:
+N/A
+
+-   Evan
+
+Completed:
+N/A
+
+To Do:
+Learn everything,
+Login Page
+
+Roadblocks:
+N/A
+
+-   May
+
+Completed:
+N/A
+
+To Do:
+Learn everything,
+Trends page SQL queries for other reports
+
+Roadblocks:
+N/A
+
+-   Lilly
+
+Completed:
+N/A
+
+To Do:
+Learn everything,
+Backend payment
+
+Roadblocks:
+N/A
+
+## 3/26
+
+-   Owen Shadburne
+
+Completed:
+Completed side bar,
+Completed display for tables for manager editing
+
+To Do:
+Work on api backend for manager editing
+
+Roadblocks:
+Learning backend
+
+-   Shri Gaddad
+
+Completed:
+Briefly looked at back end,
+Looked at SQL stuff
+
+To Do:
+Start Kiosk Page
+
+Roadblocks:
+N/A
+
+-   Evan Kostov
+
+Completed:
+Made a page for the login
+
+To Do:
+Get google authentication for email
+
+Roadblocks:
+Learning React
+
+-   May He
+
+Completed:
+Write sql queries for top selling items and something else
+
+To Do:
+Try and work on frontend
+
+Roadblocks:
+Frontend see how it works and how to interact to backend
+
+-   Lilly Mitchell
+
+Completed:
+Looked at all the code already present in git and tried to understand it
+
+To Do:
+Payment screen
+
+Roadblocks:
+Understanding how things work together
+
+## 3/28
+
+-   Owen
+
+Done:
+Finished all manager edit stuff
+
+Work on:
+Assign tasks for next sprint
+
+Roadblock:
+Waiting to see what is completed
+
+-   Shri
+
+Done:
+Played around with a few components
+
+Work on:
+Put initial draft on how the kiosk will look
+
+Roadblock:
+Learning still
+
+-   Evan
+
+Done:
+N/A
+
+Work on:
+Google api thing for authentication
+
+Roadblock:
+Not having used an api key with node or js
+
+-   May
+
+Done:
+Learned to work on frontend and how it interacts with backend
+
+Work on:
+Learning the react
+
+Roadblock:
+Learning
+
+-   Lilly
+
+Done:
+Made ordering page for frontend
+
+Work on:
+Ordering page and make it prettier
+
+Roadblock:
+Understanding how things work together
