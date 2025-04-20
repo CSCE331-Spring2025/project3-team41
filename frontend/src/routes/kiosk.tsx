@@ -4,11 +4,9 @@ import { Label } from "@/components/ui/label";
 import { API_URL } from "@/lib/constants";
 import { useEffect, useState } from "react";
 import { ok } from "@/lib/fetchUtils";
-// import { ItemWidget } from "@/components/ItemWidget";
 import { SquareMinus, SquarePlus, Trash2 } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
 
-// import { set } from "react-hook-form";
 
 interface MenuItem {
 	item: string;
@@ -208,7 +206,6 @@ function RouteComponent() {
 				</div>
 			)}
 		
-
 			<div className="flex gap-8">
 				<div
 					className="grid grid-cols-4 gap-6"
