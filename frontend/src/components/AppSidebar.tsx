@@ -304,7 +304,6 @@ function AppSidebar({ children }: Props) {
               <SidebarTrigger className="-ml-1" />
               <Separator orientation="vertical" className="mr-2 h-4" />
               <Translate />
-              <SidebarTrigger className="-ml-1" />
               <Separator orientation="vertical" className="mr-2 h-4" />
               {Breadcrumbs()}
             </div>
