@@ -353,7 +353,7 @@ None
 
 ## 4/11
 
-- Owen
+-   Owen
 
 Done:
 Started static menu
@@ -361,10 +361,10 @@ Started static menu
 TODO:
 Allergens and finish static menu
 
-Block: 
+Block:
 React x2 and env
 
-- Lilly
+-   Lilly
 
 Done:
 Fixed payment,
@@ -377,7 +377,7 @@ Accessability contrast
 Blocks:
 Issues with env
 
-- May
+-   May
 
 Done:
 Profit over time
@@ -388,7 +388,7 @@ Weather API
 Blocks:
 Limiting the time frame of the report
 
-- Evan
+-   Evan
 
 Done:
 Google Translate API
@@ -399,7 +399,7 @@ Finish translations
 Blocks:
 Issues with tree walking
 
-- Shri
+-   Shri
 
 Done:
 Working on kiosk
@@ -409,3 +409,61 @@ Integrate order with kiosk
 
 Block:
 React running twice
+
+## 4/21
+
+-   Owen
+
+Done:
+Nothing
+
+To Do:
+Mobile styling,
+Switch order and kiosk screens
+
+Roadblocks:
+None
+
+-   Lilly
+
+Done:
+Contrast
+
+To Do:
+Add aria to make things tab focusable
+
+Roadblocks:
+How to use aria
+
+-   Shri
+
+Done:
+Contrast Button
+
+To Do:
+Contrast
+
+Roadblocks:
+physics exam
+
+-   May
+
+Done:
+Dynamic pricing
+
+To Do:
+Quality control
+
+Roadblocks:
+None
+
+-   Evan
+
+Done:
+Translate button less invasive
+
+To Do:
+Make translate less invasive
+
+Roadblocks:
+Regex

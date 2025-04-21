@@ -107,7 +107,7 @@ export function ProfileForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="your_password" {...field} />
+                <Input type="password" placeholder="your_password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
