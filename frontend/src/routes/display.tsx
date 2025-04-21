@@ -10,6 +10,7 @@ import { useAllergenMenu } from "@/hooks/useAllergenMenu";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { API_URL } from "@/lib/constants";
+import { calculateAdjustedPrice } from "@/components/dynamicPricing";
 
 export const Route = createFileRoute("/display")({
 	component: RouteComponent,
@@ -124,7 +125,7 @@ function RouteComponent() {
 							/>
 						</CardContent>
 						<CardFooter className="flex justify-center">
-							${item.price.toFixed(2)}
+							${calculateAdjustedPrice(item.price, weather?.temp).toFixed(2)}
 						</CardFooter>
 					</Card>
 				))}

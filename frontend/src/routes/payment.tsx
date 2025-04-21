@@ -17,7 +17,7 @@ function PaymentComponent() {
 				customerName = "",
 				drinks = [],
 				total = 0
-			} = {}
+			}
 		}
 	} = useRouterState()
 
