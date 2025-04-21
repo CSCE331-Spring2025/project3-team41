@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { API_URL } from "@/lib/constants";
 import logo from "/PFU.jpg";
 import { useAllergenMenu } from "@/hooks/useAllergenMenu";
+import { calculateAdjustedPrice } from "@/components/dynamicPricing";
 
 export const Route = createFileRoute("/order")({
 	component: RouteComponent,
@@ -75,7 +76,7 @@ function RouteComponent() {
 	};
 
 	const total = cart.reduce(
-		(acc, curr) => acc + curr.price * curr.quantity,
+		(acc, curr) => acc + calculateAdjustedPrice(curr.price, weather?.temp) * curr.quantity,
 		0
 	);
 
@@ -147,7 +148,7 @@ function RouteComponent() {
 								))}
 							</span>
 							<span className="text-blue-500">
-								${m.price.toFixed(2)}
+								${calculateAdjustedPrice(m.price, weather?.temp).toFixed(2)}
 							</span>
 						</button>
 					))}
@@ -253,7 +254,7 @@ function RouteComponent() {
 								>
 									{c.quantity} × {c.item}{" "}
 									<span className="text-gray-500">
-										(${c.price.toFixed(2)} each)
+										(${calculateAdjustedPrice(c.price, weather?.temp).toFixed(2)} each)
 									</span>
 								</li>
 							))}
