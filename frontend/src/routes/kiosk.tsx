@@ -52,6 +52,24 @@ function RouteComponent() {
 		fetchWeather();
 	}, []);
 
+	//*****************Begin user token************************* */
+	useEffect(() => {
+		const params = new URLSearchParams(window.location.search);
+		const token = params.get("token");
+		const userString = params.get("user");
+
+		if (token && userString) {
+			try {
+				const user = JSON.parse(decodeURIComponent(userString));
+				console.log("Logged in user:", user.name);
+				setCustomerName(user.name);
+			} catch (err) {
+				console.error("Error parsing user object:", err);
+			}
+		}
+		//***********************End user token************************* */
+	}, []);
+
 	const openPopup = (item: MenuItem) => {
 		setSelectedItem(item);
 		setQuantity(1);
