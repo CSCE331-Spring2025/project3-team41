@@ -8,6 +8,7 @@ import { ok } from "@/lib/fetchUtils";
 import { SquareMinus, SquarePlus, Trash2 } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
 import { useAllergenMenu } from "@/hooks/useAllergenMenu";
+import { calculateAdjustedPrice } from "@/components/dynamicPricing";
 
 // import { set } from "react-hook-form";
 
@@ -81,7 +82,7 @@ function RouteComponent() {
 				<h2 className="text-xl font-bold text-white">{item.item}</h2>
 				<p className="text-gray-400">{item.description}</p>
 				<p className="text-green-500 font-semibold">
-					${(item.price * o_item.quantity).toFixed(2)}
+					${(calculateAdjustedPrice(item.price, weather?.temp) * o_item.quantity).toFixed(2)}
 				</p>
 				<div className="flex flex-row justify-between items-center w-full mt-4">
 					<div className="flex gap-2 mt-4 margin-left-2 items-center">
@@ -177,7 +178,7 @@ function RouteComponent() {
 		}
 
 		const total = order.reduce(
-			(acc, i) => acc + i.quantity * i.item.price,
+			(acc, i) => (acc += i.quantity * calculateAdjustedPrice(i.item.price, weather?.temp)),
 			0
 		);
 		const drinks = flattenOrder(order);
@@ -310,7 +311,7 @@ function RouteComponent() {
 						Total: $
 						{order
 							.reduce(
-								(acc, i) => (acc += i.quantity * i.item.price),
+								(acc, i) => (acc += i.quantity * calculateAdjustedPrice(i.item.price, weather?.temp)),
 								0
 							)
 							.toFixed(2)}
