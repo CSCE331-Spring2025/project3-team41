@@ -31,7 +31,7 @@ import {
 } from "lucide-react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { ValidateLinkOptions } from "@tanstack/react-router";
-import { Fragment, ReactElement } from "react";
+import { Fragment, ReactElement, useState } from "react";
 import UnicornLogo from "@/assets/PFU.jpg";
 import {
 	Breadcrumb,
@@ -145,6 +145,8 @@ function AppSidebar({ children }: Props) {
 	const router = useRouterState();
 	const currentPath = router.location.pathname;
 
+	const [highContrast, setHighContrast] = useState(false);
+
 	if (currentPath == "/") {
 		return children;
 	}
@@ -154,7 +156,7 @@ function AppSidebar({ children }: Props) {
 			<div className="flex gap-4 items-center">
 				<img
 					src={UnicornLogo}
-					alt = "Pink Fluffy Unicorn Logo"
+					alt="Pink Fluffy Unicorn Logo"
 					className="rounded"
 					height={36}
 					width={36}
@@ -231,10 +233,7 @@ function AppSidebar({ children }: Props) {
 	function AppSidebarButton({ button, icon, link }: Button) {
 		return (
 			<SidebarMenuItem key={button}>
-				<SidebarMenuButton
-					asChild
-					isActive={currentPath == link.to}
-				>
+				<SidebarMenuButton asChild isActive={currentPath == link.to}>
 					<Link {...link}>
 						{icon}
 						<span>{button}</span>
@@ -284,25 +283,42 @@ function AppSidebar({ children }: Props) {
 	}
 
 	return (
-		<SidebarProvider defaultOpen={currentPath != "/kiosk"}>
-			<Sidebar>
-				<SidebarHeader>{Header()}</SidebarHeader>
-				<SidebarContent>{groups.map(AppSidebarGroup)}</SidebarContent>
-			</Sidebar>
-			<SidebarInset className="overflow-hidden">
-				<header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-					<div className="flex items-center gap-2 px-4">
-						<SidebarTrigger className="-ml-1" />
-						<Separator
-							orientation="vertical"
-							className="mr-2 h-4"
-						/>
-						{Breadcrumbs()}
-					</div>
-				</header>
-				{children}
-			</SidebarInset>
-		</SidebarProvider>
+		<div className={highContrast ? "high-contrast" : ""}>
+			<button
+				onClick={() => setHighContrast(!highContrast)}
+				style={{
+					position: "fixed",
+					top: "1rem",
+					right: "1rem",
+					zIndex: 1000,
+					padding: "0.5rem 1rem",
+					borderRadius: "0.5rem",
+					background: "var(--primary)",
+					color: "var(--primary-foreground)",
+					border: "none",
+					cursor: "pointer",
+				}}
+			>
+				Toggle High Contrast
+			</button>
+
+			<SidebarProvider defaultOpen={currentPath != "/kiosk"}>
+				<Sidebar>
+					<SidebarHeader>{Header()}</SidebarHeader>
+					<SidebarContent>{groups.map(AppSidebarGroup)}</SidebarContent>
+				</Sidebar>
+				<SidebarInset className="overflow-hidden">
+					<header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+						<div className="flex items-center gap-2 px-4">
+							<SidebarTrigger className="-ml-1" />
+							<Separator orientation="vertical" className="mr-2 h-4" />
+							{Breadcrumbs()}
+						</div>
+					</header>
+					{children}
+				</SidebarInset>
+			</SidebarProvider>
+		</div>
 	);
 }
 
