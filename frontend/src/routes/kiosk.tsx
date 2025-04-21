@@ -4,13 +4,11 @@ import { Label } from "@/components/ui/label";
 import { API_URL } from "@/lib/constants";
 import { useEffect, useState } from "react";
 import { ok } from "@/lib/fetchUtils";
-// import { ItemWidget } from "@/components/ItemWidget";
 import { SquareMinus, SquarePlus, Trash2 } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
 import { useAllergenMenu } from "@/hooks/useAllergenMenu";
 import { calculateAdjustedPrice } from "@/components/dynamicPricing";
 
-// import { set } from "react-hook-form";
 
 interface MenuItem {
 	item: string;
