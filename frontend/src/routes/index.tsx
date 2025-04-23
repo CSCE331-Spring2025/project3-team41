@@ -20,13 +20,16 @@ function Index() {
       <br />
 
       <Button className = "text-4xl mb-4 py-8" onClick = { () => {
+        localStorage.setItem("userRole", "customer");
         window.location.href = `${API_URL}/google`;
       }}>
         Login with Google
       </Button>
 
     <Link to="/kiosk">
-	  <Button className="text-4xl py-8">
+	  <Button className="text-4xl py-8" onClick = { () => {
+        localStorage.setItem("userRole", "customer");
+      }}>
         Login as Guest
       </Button>
       </Link>

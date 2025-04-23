@@ -31,7 +31,7 @@ import {
 } from "lucide-react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { ValidateLinkOptions } from "@tanstack/react-router";
-import { Fragment, ReactElement, useState } from "react";
+import { Fragment, ReactElement, useState, useEffect } from "react";
 import UnicornLogo from "@/assets/PFU.jpg";
 import {
   Breadcrumb,
@@ -41,6 +41,10 @@ import {
   BreadcrumbSeparator,
 } from "./ui/breadcrumb";
 import { Translate } from "@/components/translate";
+
+interface UserRole {
+  role: string;
+}
 
 interface Group {
   group: string;
@@ -142,10 +146,31 @@ interface Props {
   children: ReactElement;
 }
 
+function getVisibleSections(userRole: UserRole): Group[] {
+  if (userRole.role == "manager") {
+    return groups;
+  } else if (userRole.role == "employee") {
+    return groups.filter((g) => g.group != "Manager");
+  } else if (userRole.role == "customer") {
+    return groups.filter((g) => g.group == "Customer");
+  }
+
+  return groups.filter((g) => g.group == "Customer");
+}
+
 function AppSidebar({ children }: Props) {
   const router = useRouterState();
   const currentPath = router.location.pathname;
   const [highContrast, setHighContrast] = useState(false);
+  const [userRole, setUserRole] = useState<UserRole>({ role: "customer" });
+
+  useEffect(() => {
+    const r = localStorage.getItem("userRole");
+    if (r) {
+      setUserRole({ role: r });
+    }
+  }, []);
+
 
   if (currentPath == "/") {
     return children;
@@ -296,7 +321,7 @@ function AppSidebar({ children }: Props) {
       <SidebarProvider defaultOpen={currentPath != "/kiosk"}>
         <Sidebar>
           <SidebarHeader>{Header()}</SidebarHeader>
-          <SidebarContent>{groups.map(AppSidebarGroup)}</SidebarContent>
+          <SidebarContent>{getVisibleSections(userRole).map(AppSidebarGroup)}</SidebarContent>
         </Sidebar>
         <SidebarInset className="overflow-hidden">
           <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">

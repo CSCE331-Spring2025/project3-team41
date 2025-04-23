@@ -73,9 +73,11 @@ export function ProfileForm() {
     const check = await CheckLogin(values as LoginForm);
     if (check == 1) {
       //Employee
+      localStorage.setItem("userRole", "employee");
       window.location.href = "/order";
     } else if (check == 2) {
       //Manager
+      localStorage.setItem("userRole", "manager");
       window.location.href = "/display";
     } else {
       //Invalid
