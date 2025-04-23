@@ -71,11 +71,11 @@ export function ProfileForm() {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const check = await CheckLogin(values as LoginForm);
-    if (check == 1) {
+    if (check == 0) {
       //Employee
       localStorage.setItem("userRole", "employee");
       window.location.href = "/order";
-    } else if (check == 2) {
+    } else if (check == 1) {
       //Manager
       localStorage.setItem("userRole", "manager");
       window.location.href = "/display";
