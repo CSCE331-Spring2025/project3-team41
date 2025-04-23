@@ -103,7 +103,7 @@ function RouteComponent() {
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
             placeholder="Start Date"
-            className="border-none focus:outline-none"
+            className="border-none focus:outline-none [&::-webkit-calendar-picker-indicator]:hidden"
             id="start-date"
           />
           <button
@@ -124,7 +124,7 @@ function RouteComponent() {
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
             placeholder="End Date"
-            className="border-none focus:outline-none"
+            className="border-none focus:outline-none [&::-webkit-calendar-picker-indicator]:hidden"
             id="end-date"
           />
           <button
