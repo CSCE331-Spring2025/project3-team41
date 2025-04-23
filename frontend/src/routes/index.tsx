@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import EmployeeLogin from "@/components/EmployeeLogin";
 import { API_URL } from "@/lib/constants";
+import { Translate } from "@/components/translate";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -33,6 +34,8 @@ function Index() {
         Login as Guest
       </Button>
       </Link>
+
+      <div className = "absolute top-4 left-4"><Translate/></div>
     </div>
   );
 }

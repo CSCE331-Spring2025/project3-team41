@@ -39,6 +39,7 @@ function RouteComponent() {
 	const fullMenu = useAllergenMenu();
 	let [order, setOrder] = useState<OrderItem[]>([]);
 	const [weather, setWeather] = useState<WeatherData | null>(null);
+	const [customerName, setCustomerName] = useState("");
 
 	useEffect(() => {
 		async function fetchWeather() {
@@ -146,15 +147,14 @@ function RouteComponent() {
 	}
 
 	function sendOrder() {
-		console.log("Users name:", usersName);
 		if (order.length === 0) {
 			alert("Please add items to your order before submitting.");
 			return;
 		}
-		if (usersName === "") {
+		if (customerName === "") {
 			const name = prompt("Please enter your name:");
 			if (name) {
-				usersName = name;
+				setCustomerName(name);
 			} else {
 				alert("Please enter a valid name.");
 				return;
@@ -173,7 +173,7 @@ function RouteComponent() {
 		navigate({
 			to: "/payment",
 			state: {
-				customerName: usersName,
+				customerName,
 				drinks,
 				total,
 			},
