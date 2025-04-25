@@ -467,3 +467,117 @@ Make translate less invasive
 
 Roadblocks:
 Regex
+
+## 4/23
+
+-   Shri:
+
+Done:
+Fixed names for orders
+
+To Do:
+Sound Effects
+
+Roadblocks:
+Javascript single threaded
+
+-   Lilly
+
+Done:
+Aria
+
+To Do:
+More Aria
+
+Roadblock:
+Aria
+
+-   Evan
+
+Done:
+Updated login and translate
+
+To Do:
+Quality assurance
+
+Roadblock:
+Burnout
+
+-   May
+
+Done:
+Side restrictions
+
+To Do:
+Quality Assurance
+
+Roadblock:
+Mac issues
+
+-   Owen
+
+Done:
+Mobile and bug fixing
+
+To Do:
+Bug fixing
+
+Roadblock:
+I don't know what to bugfix
+
+## 4/25
+
+-   Shri:
+
+Done:
+Sound effects
+
+To Do:
+Nothing
+
+Roadblocks:
+Website sound player
+
+-   Lilly
+
+Done:
+Aria
+
+To Do:
+None
+
+Roadblock:
+Aria
+
+-   Evan
+
+Done:
+Bugfixing
+
+To Do:
+None
+
+Roadblock:
+Screen light mode
+
+-   May
+
+Done:
+Bugfixing
+
+To Do:
+None
+
+Roadblock:
+None
+
+-   Owen
+
+Done:
+Bug fixing
+
+To Do:
+None
+
+Roadblock:
+None
