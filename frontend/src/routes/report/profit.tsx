@@ -106,7 +106,6 @@ function RouteComponent() {
             className="border-none focus:outline-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden [&::-webkit-outer-spin-button]:hidden [&::-webkit-datetime-edit-text]:hidden appearance-none"
             style={{ WebkitAppearance: 'none' }}
             id="start-date"
-            readOnly
           />
           <button
             onClick={() => {
@@ -129,7 +128,6 @@ function RouteComponent() {
             className="border-none focus:outline-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden [&::-webkit-outer-spin-button]:hidden [&::-webkit-datetime-edit-text]:hidden appearance-none"
             style={{ WebkitAppearance: 'none' }}
             id="end-date"
-            readOnly
           />
           <button
             onClick={() => {
