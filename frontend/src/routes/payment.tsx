@@ -107,7 +107,7 @@ function PaymentComponent() {
 						type="text"
 						value={cardNumber}
 						onChange={(e) => setCardNumber(e.target.value)}
-						placeholder="1234 5678 9012 3456"
+						placeholder="Card Number 16 Digits"
 						className="w-full p-2 border rounded-lg focus:outline-none text-white"
 						required
 					/>
