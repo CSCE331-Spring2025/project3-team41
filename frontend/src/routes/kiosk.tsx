@@ -298,7 +298,7 @@ function RouteComponent() {
 							onClick={goToPayment}
 							disabled={cart.length === 0 || !customerName}
 						>
-							Pay
+							{(cart.length === 0 || !customerName) ? "Enter name at top" : "Pay"}
 						</button>
 					</div>
 				</div>
