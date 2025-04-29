@@ -339,6 +339,20 @@ function AppSidebar({ children }: Props) {
 								>
 									Toggle High Contrast
 								</Button>
+								<Button asChild>
+									<Link
+										to="/"
+										onClick={() => {
+											setUserRole({ role: "customer" });
+											localStorage.setItem(
+												"userRole",
+												"customer"
+											);
+										}}
+									>
+										Log Out
+									</Link>
+								</Button>
 							</div>
 						</div>
 					</header>
