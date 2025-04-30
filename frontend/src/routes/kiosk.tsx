@@ -193,6 +193,7 @@ function RouteComponent() {
 									setQuantity(parseInt(e.target.value))
 								}
 								className="p-2 border rounded text-black"
+								aria-label="Quantity"
 							/>
 							<button
 								className="bg-green-500 text-white rounded p-2 hover:bg-green-600"
@@ -225,6 +226,7 @@ function RouteComponent() {
 									setEditQuantity(parseInt(e.target.value))
 								}
 								className="p-2 border rounded text-black"
+								aria-label="Quantity"
 							/>
 							<div className="flex gap-2">
 								<button
