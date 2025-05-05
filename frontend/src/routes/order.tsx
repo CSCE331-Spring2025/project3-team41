@@ -141,6 +141,7 @@ function RouteComponent() {
     });
     return flattenedOrder;
   }
+  // Sends order to the payment page after validating name and cart
 
   function sendOrder() {
     if (order.length === 0) {

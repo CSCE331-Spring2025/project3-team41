@@ -17,7 +17,7 @@ interface MenuItem {
 	description: string;
 	ingredients: string[];
 }
-
+// Sets up the columns and validation for the menu items table
 const definition: Definition<MenuItem>[] = [
 	{
 		primaryKey: true,

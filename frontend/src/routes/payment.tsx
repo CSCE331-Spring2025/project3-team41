@@ -48,6 +48,7 @@ function PaymentComponent() {
 	const [cardNumber, setCardNumber] = useState("")
 	const [error, setError] = useState("")
 	const [loading, setLoading] = useState(false)
+	// Handles payment form submission and sends order to backend
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()

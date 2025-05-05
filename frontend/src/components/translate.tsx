@@ -22,6 +22,7 @@ export function Translate() { //Its all one component
 
   // Load Google Translate script once
   React.useEffect(() => {
+    // Prevents multiple script tags from being added if the component re-renders
     if (document.getElementById("google-translate-script")) return;
 
     window.googleTranslateElementInit = () => {

@@ -39,7 +39,7 @@ function RouteComponent() {
 		}
 		fetchWeather();
 	}, []);
-
+	// Auto-scrolls the menu up and down with a pause at each end
 	useEffect(() => {
 		const container = containerRef.current;
 		if (!container) return;

@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { API_URL } from "@/lib/constants";
-
+// EmployeeLogin verifies credentials against the backend and sets the user's role in localStorage.
 export function EmployeeLogin() { //Main button and return
   const [open, setOpen] = React.useState(false);
 

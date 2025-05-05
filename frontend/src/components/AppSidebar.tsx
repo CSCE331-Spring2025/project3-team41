@@ -161,7 +161,7 @@ function getVisibleSections(userRole: UserRole): Group[] {
 
 	return groups.filter((g) => g.group == "Customer");
 }
-
+// AppSidebar that changes the sidebar UI based on what user logged in (customer, employee, or manager)
 function AppSidebar({ children }: Props) {
 	const router = useRouterState();
 	const currentPath = router.location.pathname;

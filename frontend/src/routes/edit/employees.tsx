@@ -19,7 +19,7 @@ interface Employee {
 	password: string;
 	wage: number;
 }
-
+// Sets up the columns and rules for the employee table
 const definition: Definition<Employee>[] = [
 	{
 		primaryKey: true,

@@ -17,7 +17,7 @@ interface Ingredient {
 	quantity: number;
 	allergens: string[];
 }
-
+// Sets up the inventory table columns and rules
 const definition: Definition<Ingredient>[] = [
 	{
 		primaryKey: true,

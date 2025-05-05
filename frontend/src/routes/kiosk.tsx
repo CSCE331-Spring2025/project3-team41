@@ -54,6 +54,7 @@ function RouteComponent() {
 	}, []);
 
 	//*****************Begin user token************************* */
+	// Get customer name from URL token and set it in state
 	useEffect(() => {
 		const params = new URLSearchParams(window.location.search);
 		const token = params.get("token");
