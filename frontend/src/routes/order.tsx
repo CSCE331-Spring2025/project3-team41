@@ -73,7 +73,7 @@ function RouteComponent() {
             <Button
               className="hover:bg-gray-600 size-7"
               onClick={() => {
-                setOrder((prevOrder) => {
+                setOrder((prevOrder) => { // The logic for decrementing an item count
                   const prev = [...prevOrder];
                   const index = order.findIndex(
                     (o_item) => o_item.item.item === item.item
@@ -94,7 +94,7 @@ function RouteComponent() {
 
             <Button
               className="hover:bg-gray-600 size-7"
-              onClick={() => {
+              onClick={() => {  // The logic for incrementing an item count
                 setOrder((prevOrder) => {
                   const prev = [...prevOrder];
                   const index = order.findIndex(
@@ -113,7 +113,7 @@ function RouteComponent() {
           <div className="flex gap-2 mt-4 items-center">
             <Button
               className="hover:bg-red-700 size-7 bg-red-400"
-              onClick={() => {
+              onClick={() => { // The logic for deleting an item from checkout
                 setOrder((prevOrder) => {
                   const prev = [...prevOrder];
                   const index = order.findIndex(
@@ -192,7 +192,7 @@ function RouteComponent() {
             width: "70%",
           }}
         >
-          {fullMenu.map((item, index) => (
+          {fullMenu.map((item, index) => (    // Creating the button grid
             <Button
               key={index}
               className="col-span-1 hover:bg-[url({fullMenu[index].image_url})]"
