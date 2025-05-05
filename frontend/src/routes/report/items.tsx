@@ -13,7 +13,7 @@ import {
 import { Bar } from 'react-chartjs-2'
 
 
-// components
+// Components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -38,12 +38,14 @@ export const Route = createFileRoute('/report/items')({
 function RouteComponent() {
   const [data, setData] = useState<TopItem[]>([])
 
+  // Fetch the data from the API
   useEffect(() => {
     fetch(`${API_URL}/report/TopItems`)
       .then(res => res.json())
       .then(data => setData(data))
   }, [])
 
+  // Data for the chart
   const chartData = {
     labels: data.map(item => item.item),
     datasets: [
@@ -55,6 +57,7 @@ function RouteComponent() {
     ],
   }
 
+  // Options for the chart
   const options = {
     responsive: true,
     maintainAspectRatio: false,

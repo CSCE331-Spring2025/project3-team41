@@ -14,7 +14,7 @@ import {
 import { Line } from 'react-chartjs-2'
 import { CalendarDaysIcon } from '@heroicons/react/24/solid'
 
-// components
+// Components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -39,12 +39,13 @@ function RouteComponent() {
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
 
+  // Fetch the data from the API
   useEffect(() => {
     if (startDate && endDate) {
       fetch(`${API_URL}/report/SalesOverTime`)
         .then(res => res.json())
         .then(data => {
-          // bound by date range
+          // Bound by date range
           const filteredData = data.filter((item: ProfitData) => {
             const itemDate = new Date(item.date).toISOString().split('T')[0]
             return itemDate >= startDate && itemDate <= endDate
@@ -54,6 +55,7 @@ function RouteComponent() {
     }
   }, [startDate, endDate])
 
+  // Data for the chart
   const chartData = {
     labels: data.map(item => item.date.split('T')[0]), // yyyy-MM-dd
     datasets: [
@@ -66,6 +68,7 @@ function RouteComponent() {
     ],
   }
 
+  // Options for the chart
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -94,7 +97,7 @@ function RouteComponent() {
     <div className="px-4 flex flex-col gap-4">
       <h1 className="text-2xl font-bold">Profit Over Time</h1>
 
-
+      {/* Date Range */}
       <div className="flex gap-2 items-center">
         {/* start date */}
         <div className="flex items-center border rounded p-2">
@@ -142,7 +145,7 @@ function RouteComponent() {
       </div>
 
 
-
+      {/*Line Chart*/}
       <div className="w-full h-[500px]">
         <Line data={chartData} options={options} />
       </div>
