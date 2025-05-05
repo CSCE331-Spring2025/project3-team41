@@ -24,7 +24,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { API_URL } from "@/lib/constants";
 
-export function EmployeeLogin() {
+export function EmployeeLogin() { //Main button and return
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -85,7 +85,7 @@ export function ProfileForm() {
     }
   }
 
-  return (
+  return ( //Form of username and password with input validation
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
@@ -124,7 +124,7 @@ export function ProfileForm() {
   );
 }
 
-async function CheckLogin(values: LoginForm): Promise<number> {
+async function CheckLogin(values: LoginForm): Promise<number> { //Verifies with SQL database
   const res = await fetch(
     `${API_URL}/logins/${values.username}/${values.password}`
   );

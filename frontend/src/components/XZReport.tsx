@@ -12,6 +12,7 @@ interface Props {
 	report: "xreport" | "zreport";
 }
 
+//Generate list of all recent orders from the database
 function XZReport({ report }: Props) {
 	const [orders, setOrders] = useState<any[]>([]);
 
@@ -35,7 +36,7 @@ function XZReport({ report }: Props) {
 		return counts;
 	}
 
-	return (
+	return ( //Formatting of data for report
 		<div className="flex flex-col p-4 gap-4">
 			<div className="font-bold text-2xl">
 				Total Revenue: $

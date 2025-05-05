@@ -56,8 +56,8 @@ order.post("/", async (c) => {
 
 		for (const drink of drinks) {
 			const menuItem = await sql`
-				SELECT ingredients FROM menu WHERE item = ${drink}
-			`;
+				SELECT ingredients FROM menu WHERE item = ${drink} 
+			`; //Fetches drink names
 
 			if (menuItem.length > 0) {
 				const ingredients = menuItem[0].ingredients;
@@ -67,7 +67,7 @@ order.post("/", async (c) => {
 						UPDATE ingredients
 						SET quantity = quantity - 1
 						WHERE ingredient = ${ingredient}
-					`;
+					`; //Updates ingredients
 				}
 			}
 		}
@@ -99,7 +99,7 @@ order.get("/xreport", async (c) => {
 	}
 });
 
-order.get("/zreport", async (c) => {
+order.get("/zreport", async (c) => { //Clears xreport, but first displays it
 	try {
 		const report = await sql`SELECT * FROM xreport`;
 		await sql`DROP TABLE IF EXISTS xreport`;

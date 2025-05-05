@@ -154,7 +154,7 @@ function RouteComponent() {
         alert("Please enter a valid name.");
         return;
       }
-    }
+    } //Validation to stop user from ordering too early
 
     const total = order.reduce(
       (acc, i) =>
@@ -174,6 +174,7 @@ function RouteComponent() {
     });
   }
 
+  //Main return here
   return (
     <div className="flex flex-col">
       {weather && (
@@ -233,7 +234,7 @@ function RouteComponent() {
                   button.style.color = "rgba(0, 0, 0, 0)";
                 }
               }}
-              onMouseOut={(event) => {
+              onMouseOut={(event) => { //Responsiveness for hovering over with mouse
                 const button =
                   event.currentTarget as HTMLButtonElement;
                 if (button) {
@@ -284,8 +285,8 @@ function RouteComponent() {
               marginLeft: "10px",
             }}
           >
-            Total: $
-            {order
+            Total: $ 
+            {order //Price of all drinks added together
               .reduce(
                 (acc, i) =>
                   (acc +=

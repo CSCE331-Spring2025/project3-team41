@@ -66,7 +66,7 @@ function RouteComponent() {
 					setTimeout(() => {
 						setScrollingDown(false);
 						setPaused(false);
-						lastTimeRef.current = performance.now(); // 🧩 ensures smooth speed after pause
+						lastTimeRef.current = performance.now(); // ensures smooth speed after pause
 					}, pauseDuration);
 				}
 			} else {
@@ -76,7 +76,7 @@ function RouteComponent() {
 					setTimeout(() => {
 						setScrollingDown(true);
 						setPaused(false);
-						lastTimeRef.current = performance.now(); // 🧩 ensures smooth speed after pause
+						lastTimeRef.current = performance.now(); // ensures smooth speed after pause
 					}, pauseDuration);
 				}
 			}
@@ -107,8 +107,8 @@ function RouteComponent() {
 							<CardTitle className="text-center">
 								{item.item}
 							</CardTitle>
-							{item.allergens.length !== 0 && (
-								<CardDescription className="flex justify-center gap-4 mt-2">
+							{item.allergens.length !== 0 && ( //Dynamic for mobile responsiveness
+								<CardDescription className="flex justify-center gap-4 mt-2"> 
 									{item.allergens.map(
 										(al: any, index: number) => (
 											<div key={index}>{al}</div>

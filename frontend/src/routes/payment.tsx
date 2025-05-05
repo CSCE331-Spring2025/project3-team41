@@ -54,7 +54,7 @@ function PaymentComponent() {
 		setError("")
 		setLoading(true)
 
-		const raw = cardNumber.replace(/\s/g, "")
+		const raw = cardNumber.replace(/\s/g, "") // Input validation for credit card
 		if (!/^\d{16}$/.test(raw)) {
 			setError("Please enter a valid 16-digit card number.")
 			setLoading(false)
@@ -78,7 +78,7 @@ function PaymentComponent() {
 			const data = await res.json()
 
 			if (!res.ok || !data.success) {
-				setError(data.message || "Payment failed.")
+				setError(data.message || "Payment failed.") //Error handling, should never occurr
 			} else {
 				alert("Payment successful!")
 				navigate({ to: redirectPage(userRole) })
@@ -135,7 +135,8 @@ function PaymentComponent() {
 					disabled={loading}
 					className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700"
 				>
-					{loading ? "Processing..." : "Submit Payment"}
+					{loading ? "Processing..." : "Submit Payment" //Intermediate value
+					}
 				</Button>
 			</form>
 		</div>
