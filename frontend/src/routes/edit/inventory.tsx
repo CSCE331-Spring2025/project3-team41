@@ -1,3 +1,5 @@
+// the page for inventory that uses the data table to connect to the database
+
 import { createFileRoute } from "@tanstack/react-router";
 import DataTable from "@/components/DataTable/DataTable";
 import { Definition } from "@/components/DataTable/DataTableTypes";

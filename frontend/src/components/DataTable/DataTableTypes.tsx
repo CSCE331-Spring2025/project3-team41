@@ -1,3 +1,5 @@
+// all the types necessary for the data table to be type safe
+
 import { Row } from "@tanstack/react-table";
 import { JSX } from "react";
 import { UseFormReturn } from "react-hook-form";

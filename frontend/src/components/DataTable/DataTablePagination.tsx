@@ -1,3 +1,5 @@
+// an add on for the data table to add pagination functionality
+
 import { Table } from "@tanstack/react-table";
 import {
 	ChevronLeft,

@@ -1,3 +1,6 @@
+// a function for getting the display of the x and z reports
+// automatically clears when calling for the z report
+
 import {
 	Card,
 	CardContent,
@@ -36,7 +39,8 @@ function XZReport({ report }: Props) {
 		return counts;
 	}
 
-	return ( //Formatting of data for report
+	return (
+		//Formatting of data for report
 		<div className="flex flex-col p-4 gap-4">
 			<div className="font-bold text-2xl">
 				Total Revenue: $

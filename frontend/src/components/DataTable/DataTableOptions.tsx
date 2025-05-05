@@ -1,3 +1,5 @@
+// the create, update, and delete functionality for the data table
+
 import {
 	Dialog,
 	DialogContent,

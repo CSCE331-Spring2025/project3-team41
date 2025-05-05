@@ -1,3 +1,6 @@
+// imported from the ui library "shadcn"
+// gets the pixels sized based on the screen size
+
 import * as React from "react"
 
 const MOBILE_BREAKPOINT = 768

@@ -1,3 +1,5 @@
+// constants to be used throughout the app
+
 const environment = process.env.NODE_ENV; //Must be named NODE_ENV
 
 

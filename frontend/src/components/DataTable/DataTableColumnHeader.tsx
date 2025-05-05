@@ -1,3 +1,5 @@
+// a header for the data table column that allows for sorting
+
 import { Column } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, ChevronsUpDown } from "lucide-react";
 
@@ -32,7 +34,7 @@ export function DataTableColumnHeader<TData, TValue>({
 	function toggleSorting(state: boolean) {
 		column.toggleSorting(state);
 		table.resetPageIndex();
-	} 
+	}
 
 	return (
 		<div className={cn("flex items-center space-x-2", className)}>
@@ -54,15 +56,11 @@ export function DataTableColumnHeader<TData, TValue>({
 					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="start">
-					<DropdownMenuItem
-						onClick={() => toggleSorting(false)}
-					>
+					<DropdownMenuItem onClick={() => toggleSorting(false)}>
 						<ArrowUp className="h-3.5 w-3.5 text-muted-foreground/70" />
 						Asc
 					</DropdownMenuItem>
-					<DropdownMenuItem
-						onClick={() => toggleSorting(true)}
-					>
+					<DropdownMenuItem onClick={() => toggleSorting(true)}>
 						<ArrowDown className="h-3.5 w-3.5 text-muted-foreground/70" />
 						Desc
 					</DropdownMenuItem>

@@ -1,3 +1,5 @@
+/* the css for the app, including all colors used by the ui library */
+
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";

@@ -1,3 +1,5 @@
+// a sidebar for the app that dynamically generates
+
 import {
 	Sidebar,
 	SidebarContent,
@@ -147,7 +149,8 @@ interface Props {
 	children: ReactElement;
 }
 
-function getVisibleSections(userRole: UserRole): Group[] { //Determines who can see which pages
+function getVisibleSections(userRole: UserRole): Group[] {
+	//Determines who can see which pages
 	if (userRole.role == "manager") {
 		return groups;
 	} else if (userRole.role == "employee") {
@@ -191,7 +194,8 @@ function AppSidebar({ children }: Props) {
 		);
 	}
 
-	function Breadcrumbs() { //Displays location tree of current spot in ordering process
+	function Breadcrumbs() {
+		//Displays location tree of current spot in ordering process
 		const breadcrumbs = getBreadcrumbs();
 
 		return (
@@ -239,7 +243,8 @@ function AppSidebar({ children }: Props) {
 		return [];
 	}
 
-	function AppSidebarGroup({ group, buttons, collapsible }: Group) { //Dynamically adds buttons
+	function AppSidebarGroup({ group, buttons, collapsible }: Group) {
+		//Dynamically adds buttons
 		return (
 			<SidebarGroup key={group}>
 				<SidebarGroupLabel>{group}</SidebarGroupLabel>
@@ -271,7 +276,8 @@ function AppSidebar({ children }: Props) {
 		);
 	}
 
-	function AppSidebarCollapsible({ collapse, icon, pages }: Collapse) { //Activation toggle
+	function AppSidebarCollapsible({ collapse, icon, pages }: Collapse) {
+		//Activation toggle
 		return (
 			<Collapsible
 				key={collapse}

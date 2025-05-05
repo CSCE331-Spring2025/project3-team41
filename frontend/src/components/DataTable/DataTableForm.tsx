@@ -1,3 +1,6 @@
+// a form to be used in the data table
+// used with zod data validation
+
 import { Button } from "@/components/ui/button";
 import {
 	Form,

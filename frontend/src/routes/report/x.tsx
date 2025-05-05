@@ -1,3 +1,5 @@
+// the page for the x report
+
 import XZReport from "@/components/XZReport";
 import { createFileRoute } from "@tanstack/react-router";
 

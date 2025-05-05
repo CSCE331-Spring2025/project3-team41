@@ -1,3 +1,6 @@
+// the actual html for rendering the data table,
+// including all the states and add ons necessary 
+
 import {
 	Column,
 	ColumnDef,

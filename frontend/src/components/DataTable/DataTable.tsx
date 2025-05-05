@@ -1,3 +1,6 @@
+// A data table that displays some regular data in a table format
+// contains sorting and CRUD utilities to connect to a database
+
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "./DataTableColumnHeader";
 import DataTableRender from "./DataTableRender";

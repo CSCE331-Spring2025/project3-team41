@@ -1,3 +1,6 @@
+// a function that fetches the menu and injects the allergens
+// from the ingredients contained within
+
 import { API_URL } from "@/lib/constants";
 import {
 	Bean,
