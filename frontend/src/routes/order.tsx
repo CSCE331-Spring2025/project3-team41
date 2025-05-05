@@ -40,6 +40,7 @@ function RouteComponent() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [customerName, setCustomerName] = useState("");
 
+  // Fetch weather data
   useEffect(() => {
     async function fetchWeather() {
       const response = await fetch(`${API_URL}/weather`);
@@ -177,6 +178,7 @@ function RouteComponent() {
   //Main return here
   return (
     <div className="flex flex-col">
+      {/* Weather Display */}
       {weather && (
         <div className="w-full text-white p-2 text-center mb-4">
           {weather.location}: {weather.temp}°F

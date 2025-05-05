@@ -21,7 +21,7 @@ function Index() {
       <br />
 
       <Button className = "text-4xl mb-4 py-8" onClick = { () => {
-        localStorage.setItem("userRole", "customer");
+        localStorage.setItem("userRole", "customer"); {/* Set user to customer if login with google */}
         window.location.href = `${API_URL}/google`;
       }}>
         Login with Google
@@ -29,7 +29,7 @@ function Index() {
 
     <Link to="/kiosk">
 	  <Button className="text-4xl py-8" onClick = { () => {
-        localStorage.setItem("userRole", "customer");
+        localStorage.setItem("userRole", "customer"); {/* Set user to customer if login as guest */}
       }}>
         Login as Guest
       </Button>
